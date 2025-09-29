@@ -22,6 +22,6 @@ COPY --from=builder /app/target/*.jar app.jar
 # Puerto por defecto de Spring Boot
 EXPOSE 8080
 
-# Permite pasar opciones vía JAVA_OPTS si las necesitas
+# Permite pasar opciones vía JAVA_OPTS si las necesitasemos
 ENV JAVA_OPTS=""
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]

@@ -72,6 +72,12 @@ La aplicación estará disponible en:
 
 ## 📦 (Opcional) Ejecución con Docker Compose
 
+Primero se debe compilar el proyecto
+
+```bash
+mvn clean install -DskipTests
+```
+
 ```bash
 docker compose up --build
 ```
