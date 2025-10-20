@@ -2,8 +2,7 @@ package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.controller;
 
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Alquiler;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.AlquilerRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@ public class Vehiculo {
     @Column(length = 255)
     private String marca;
 
-    @Column(length = 255)
+    @Column(nullable = false, unique = true, length = 7)
     private String matricula;
 
     @Column(length = 255)
