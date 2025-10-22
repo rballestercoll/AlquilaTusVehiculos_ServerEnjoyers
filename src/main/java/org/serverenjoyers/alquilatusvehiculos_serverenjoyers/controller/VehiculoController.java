@@ -1,66 +1,43 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.controller;
 
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Vehiculo;
-import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.VehiculoRepository;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service.VehiculoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("vehiculos")
 public class VehiculoController {
 
-    private final VehiculoRepository vehiculoRepository;
+    @Autowired
+    private VehiculoService vehiculoService;
 
-    public VehiculoController(VehiculoRepository vehiculoRepository) {
-        this.vehiculoRepository = vehiculoRepository;
-    }
-
-    @GetMapping("/vehiculos")
+    @GetMapping
     public List<Vehiculo> getVehiculos() {
-        return vehiculoRepository.findAll();
+        return vehiculoService.getVehiculos();
     }
 
-    @PostMapping("/crear-vehiculo")
-    public String addVehiculo(@RequestBody Vehiculo vehiculo){
-        if (
-                vehiculo.getPrecioDia() != 0 &&
-                vehiculo.getMatricula() != null &&
-                vehiculo.getModelo() != null &&
-                vehiculo.getMarca() != null &&
-                vehiculo.getPasajeros() != 0){
-        vehiculoRepository.save(vehiculo);
-        return "Vehículo registrado correctamente!";
-        } else {
-            return "Se deben rellenar todos los campos";
-        }
+    @GetMapping("{id}")
+    public Vehiculo getVehiculo(@PathVariable Long id){
+        return vehiculoService.getVehiculo(id);
     }
 
-    @PutMapping("/editar-vehiculo/{id}")
-    public String updateVehiculo(@PathVariable Long id, @RequestBody Vehiculo vehiculo){
-        Vehiculo updateVehiculo = vehiculoRepository.findById(id).get();
-        if (vehiculo.getMarca() != null){
-        updateVehiculo.setMarca(vehiculo.getMarca());
-        }
-        if (vehiculo.getMatricula() != null){
-        updateVehiculo.setMatricula(vehiculo.getMatricula());
-        }
-        if (vehiculo.getModelo() != null){
-        updateVehiculo.setModelo(vehiculo.getModelo());
-        }
-        if (vehiculo.getPasajeros() != 0){
-        updateVehiculo.setPasajeros(vehiculo.getPasajeros());
-        }
-        if(vehiculo.getPrecioDia() != 0){
-        updateVehiculo.setPrecio_dia(vehiculo.getPrecioDia());
-        }
-        vehiculoRepository.save(updateVehiculo);
-        return "Vehículo actualizado correctamente!";
+    @PostMapping
+    public Vehiculo addVehiculo(@RequestBody Vehiculo vehiculo){
+        return vehiculoService.addVehiculo(vehiculo);
     }
 
-    @DeleteMapping("/eliminar-vehiculo/{id}")
+    @PutMapping("/{id}")
+    public Vehiculo updateVehiculo(@PathVariable Long id, @RequestBody Vehiculo vehiculo){
+        vehiculo.setId(id);
+        return vehiculoService.updateVehiculo(vehiculo);
+    }
+
+    @DeleteMapping("/{id}")
     public String deleteVehiculo(@PathVariable Long id){
-        Vehiculo vehiculo = vehiculoRepository.findById(id).get();
-        vehiculoRepository.delete(vehiculo);
-        return "Vehículo eliminado correctamente!";
+        vehiculoService.deleteVehiculo(id);
+        return "Vehículo con ID " + id + " eliminado correctamente.";
     }
 }
