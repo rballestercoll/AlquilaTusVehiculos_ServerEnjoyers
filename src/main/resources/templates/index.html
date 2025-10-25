@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alquiler de vehículos - ServerEnjoyers</title>
+
+  <!-- Style -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous"
+  >
+</head>
+<body>
+
+<!-- Header / Navbar -->
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" th:href="@{/}">Alquiler de vehículos - ServerEnjoyers</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Registro</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/alquileres}">Alquileres</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Cuerpo -->
+<main class="container text-center py-5">
+  <div class="logo-container">
+    <img src="/assets/logo.png" alt="Logo de ServerEnjoyers" class="logo">
+  </div>
+
+  <h1 class="display-5 fw-semibold mb-3 welcome-text">¡Bienvenido a ServerEnjoyers!</h1>
+  <p class="lead mb-4">
+    Para comenzar a alquilar vehículos, por favor regístrate en nuestra plataforma.
+  </p>
+
+  <a href="#" class="btn btn-register">Registrarse Ahora</a>
+
+  <div class="features">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 p-3">
+          <div class="feature-icon">🚗</div>
+          <h4>Amplia Selección</h4>
+          <p>Elige entre una amplia variedad de vehículos para todas tus necesidades.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 p-3">
+          <div class="feature-icon">💰</div>
+          <h4>Precios Competitivos</h4>
+          <p>Ofrecemos las mejores tarifas del mercado con opciones flexibles.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 p-3">
+          <div class="feature-icon">🔒</div>
+          <h4>Reserva Segura</h4>
+          <p>Tu reserva está protegida con nuestro sistema de seguridad avanzado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer text-center">
+  <div class="container">
+    <p>&copy; 2025 ServerEnjoyers. Todos los derechos reservados.</p>
+    <p class="mb-0">Alquiler de vehículos premium</p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS CDN -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+</script>
+
+</body>
+</html>

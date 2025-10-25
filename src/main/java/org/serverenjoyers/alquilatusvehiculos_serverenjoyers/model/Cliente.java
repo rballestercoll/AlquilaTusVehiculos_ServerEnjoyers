@@ -20,6 +20,9 @@ public class Cliente {
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
+    @Column(length = 20)
+    private String telefono;
+
     public Long getId() {
         return id;
     }
@@ -50,5 +53,13 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }
