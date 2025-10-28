@@ -1,13 +1,13 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller  // <- IMPORTANTE: usar @Controller, no @RestController
 public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Bienvenido a ¡AlquilaTusVehiculos!";
+        return "index";  // Thymeleaf buscará templates/index.html
     }
 }

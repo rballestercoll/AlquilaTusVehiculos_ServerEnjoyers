@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Alquileres</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        a.button { padding: 5px 10px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+        a.button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+<h1>Listado de Alquileres</h1>
+
+<a th:href="@{/alquileres/nuevo}" class="button">Nuevo Alquiler</a>
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Vehículo</th>
+        <th>Cliente</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Precio Total</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="alquiler : ${alquileres}">
+        <td th:text="${alquiler.id}"></td>
+        <td th:text="${alquiler.vehiculo.marca} + ' ' + ${alquiler.vehiculo.modelo}"></td>
+        <td th:text="${alquiler.cliente.nombre}"></td>
+        <td th:text="${alquiler.fechaInicio}"></td>
+        <td th:text="${alquiler.fechaFin}"></td>
+        <td th:text="${alquiler.precioTotal} + ' €'"></td>
+        <td>
+            <a th:href="@{'/alquileres/editar/' + ${alquiler.id}}" class="button">Editar</a>
+            <a th:href="@{'/alquileres/borrar/' + ${alquiler.id}}" class="button">Borrar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a th:href="@{/}" class="button">Volver al Dashboard</a>
+</body>
+</html>

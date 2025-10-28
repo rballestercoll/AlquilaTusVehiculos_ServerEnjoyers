@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 
 # Puerto por defecto de Spring Boot
-EXPOSE 8080
+EXPOSE 8083
 
 # Permite pasar opciones vía JAVA_OPTS si las necesitasemos
 ENV JAVA_OPTS=""

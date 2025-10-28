@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AlquilaTusVehículos - Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; text-align: center; }
+        h1 { margin-bottom: 40px; }
+        .menu { display: flex; justify-content: center; gap: 20px; }
+        .menu a { display: block; padding: 20px; background: #007bff; color: white; text-decoration: none; border-radius: 8px; width: 150px; }
+        .menu a:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+<h1>AlquilaTusVehículos - Dashboard</h1>
+
+<div class="menu">
+    <a th:href="@{/clientes}">Clientes</a>
+    <a th:href="@{/vehiculos}">Vehículos</a>
+    <a th:href="@{/alquileres}">Alquileres</a>
+</div>
+
+</body>
+</html>

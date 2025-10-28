@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Alquiler</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 300px; padding: 5px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 8px 15px; }
+        a { display: inline-block; margin-top: 20px; text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+<h1 th:text="${alquiler.id} == null ? 'Nuevo Alquiler' : 'Editar Alquiler'"></h1>
+
+<form th:action="@{${actionUrl}}" th:object="${alquiler}" method="post">
+
+    <label for="vehiculo">Vehículo:</label>
+    <select th:field="*{vehiculo.id}" id="vehiculo" required>
+        <option th:each="veh : ${vehiculos}" th:value="${veh.id}"
+                th:text="${veh.marca} + ' ' + ${veh.modelo}"
+                th:selected="${alquiler.vehiculo != null} ? ${veh.id} == ${alquiler.vehiculo.id} : false">
+        </option>
+    </select>
+
+    <label for="cliente">Cliente:</label>
+    <select th:field="*{cliente.id}" id="cliente" required>
+        <option th:each="cli : ${clientes}" th:value="${cli.id}"
+                th:text="${cli.nombre}"
+                th:selected="${alquiler.cliente != null} ? ${cli.id} == ${alquiler.cliente.id} : false">
+        </option>
+    </select>
+
+    <label for="fechaInicio">Fecha de Inicio:</label>
+    <input type="date" th:field="*{fechaInicio}" id="fechaInicio" required/>
+
+    <label for="fechaFin">Fecha de Fin:</label>
+    <input type="date" th:field="*{fechaFin}" id="fechaFin" required/>
+
+    <label for="precioTotal">Precio Total (€):</label>
+    <input type="number" th:field="*{precioTotal}" id="precioTotal" step="0.01" required/>
+
+    <button type="submit" th:text="${alquiler.id} == null ? 'Crear' : 'Actualizar'"></button>
+</form>
+
+<a th:href="@{/alquileres}">Volver a listado de alquileres</a>
+
+</body>
+</html>
