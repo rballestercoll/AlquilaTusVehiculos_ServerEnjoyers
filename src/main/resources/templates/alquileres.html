@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alquileres - AlquilaTusVehículos</title>
+    <title>Alquileres - Alquiler de vehículos</title>
+
+    <!-- Bootstrap CSS CDN -->
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -11,179 +13,578 @@
             crossorigin="anonymous"
     >
 
-    <!-- Fuente Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Estilos propios -->
-    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css">
+    <!-- Custom Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!--    <link rel="stylesheet" href="style.css">-->
+    <style>
+        /* ===================================================
+   APP-STYLE.CSS — Estilos unificados para toda la app
+   Paleta: #10214B / #D7BD88 / #D0C3BA / #EBE7E1
+   =================================================== */
+
+/* -----------------------
+   IMPORT (fuente Poppins)
+   ----------------------- */
+/* Añade esta línea en <head> si aún no importas la fuente:
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+*/
+
+/* ================================
+   VARIABLES DE PALETA
+   ================================ */
+:root{
+  --color-primary: #10214B;   /* azul oscuro */
+  --color-accent:  #D7BD88;   /* dorado suave */
+  --color-muted:   #D0C3BA;   /* arena/gris cálido */
+  --color-light:   #EBE7E1;   /* blanco hueso */
+  --color-text:    #10214B;   /* texto principal */
+  --shadow:        0 6px 18px rgba(16,33,75,0.12);
+}
+
+/* ================================
+   GLOBAL / RESET
+   ================================ */
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-light);
+  color: var(--color-text);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utilidades generales */
+.btn { border-radius: 30px; font-weight: 500; transition: all .28s ease; }
+.shadow-sm { box-shadow: 0 2px 6px rgba(16,33,75,0.1) !important; }
+
+/* ================================
+   NAVBAR — UNIFICADO
+   ================================ */
+.navbar {
+  background-color: var(--color-primary) !important; /* fuerza paleta aunque haya style inline */
+  padding-top: .6rem;
+  padding-bottom: .6rem;
+  box-shadow: 0 2px 6px rgba(16,33,75,0.08);
+}
+
+/* Brand (logo + texto) */
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+}
+.navbar-brand img {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: height .12s ease;
+}
+.navbar-brand span {
+  color: var(--color-accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Nav links */
+.navbar .nav-link {
+  color: var(--color-light) !important;
+  font-size: .98rem;
+  padding: .45rem .65rem;
+  transition: color .18s ease;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--color-accent) !important;
+  background: transparent !important;
+  text-decoration: none;
+}
+
+/* Toggler */
+.navbar-toggler { border-color: rgba(235,231,225,0.08); }
+.navbar-toggler-icon { filter: invert(1) brightness(0.9); }
+
+/* Registro (botón especial en header) */
+.btn-accent,
+.btn.btn-accent {
+  background: var(--color-accent) !important;
+  color: var(--color-primary) !important;
+  border: 0;
+  padding: .45rem .9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+}
+.btn-accent:hover,
+.btn-accent:focus {
+  background: var(--color-muted) !important;
+  color: var(--color-primary) !important;
+  transform: translateY(-1px);
+}
+
+/* ================================
+   HERO
+   ================================ */
+.hero-section {
+  background: linear-gradient(rgba(16,33,75,0.8), rgba(16,33,75,0.8)), url('/assets/hero-bg.jpg') center/cover no-repeat;
+  color: var(--color-light);
+  min-height: 80vh;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+}
+.hero-section .btn-register {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  border: none;
+  transition: background-color .18s ease;
+}
+.hero-section .btn-register:hover { background-color: var(--color-muted); color: var(--color-primary); }
+
+/* ================================
+   FEATURES / CARDS
+   ================================ */
+.features, .features-section {
+  background-color: var(--color-light);
+  color: var(--color-text);
+}
+.feature-card {
+  background: #fff;
+  border: 1px solid var(--color-muted);
+  transition: transform .24s ease, box-shadow .24s ease;
+  border-radius: 10px;
+}
+.feature-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(16,33,75,0.08); }
+.feature-icon { color: var(--color-accent); font-size: 2.5rem; }
+
+/* ================================
+   CTA
+   ================================ */
+.cta-section {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  padding: 3rem 0;
+}
+.cta-section .btn-accent { background-color: var(--color-accent); color: var(--color-primary); }
+.cta-section .btn-accent:hover { background-color: var(--color-muted); }
+
+/* ================================
+   FOOTER
+   ================================ */
+.footer {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  padding: 1.25rem 0;
+}
+.footer p { margin: 0; }
+.footer .footer-brand { color: var(--color-accent); font-weight: 600; }
+.footer .footer-subtitle { color: var(--color-muted); }
+
+/* ================================
+   TABLAS (listados: vehículos, clientes, alquileres...)
+   ================================ */
+.table-responsive { background: transparent; }
+.table { border-collapse: separate; border-spacing: 0; }
+
+/* Cabecera */
+.table thead.table-dark, .table thead th.table-header {
+  background-color: var(--color-primary) !important;
+  color: var(--color-light);
+}
+.table thead th {
+  border-bottom: 2px solid rgba(0,0,0,0.06);
+  vertical-align: middle;
+  padding: .9rem .75rem;
+}
+
+/* Filas y celdas */
+.table tbody tr { background: #fff; }
+.table tbody tr:nth-child(even) { background: rgba(208,195,186,0.12); }
+.table td, .table th { vertical-align: middle; padding: .9rem .75rem; }
+
+/* Acciones (iconos) */
+.table .fa-solid { margin-right: .35rem; font-size: .92rem; }
+
+/* Botones pequeños dentro de tablas */
+.table .btn-sm { padding: .28rem .5rem; font-size: .85rem; }
+
+/* ================================
+   ALERTAS
+   ================================ */
+.alert-success {
+  background-color: rgba(215,189,136,0.14);
+  color: var(--color-text);
+  border: 1px solid rgba(215,189,136,0.28);
+}
+.alert-danger {
+  background-color: rgba(201,74,69,0.08);
+  color: #7a1e1b;
+  border: 1px solid rgba(201,74,69,0.14);
+}
+
+/* ================================
+   MODALES (nuevo / editar y otros)
+   ================================ */
+.modal-content {
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: none;
+  overflow: hidden;
+}
+
+/* Header del modal */
+.modal-header {
+  background: linear-gradient(90deg, rgba(16,33,75,0.98), rgba(16,33,75,0.9));
+  color: var(--color-light);
+  border-bottom: none;
+  padding: 1.05rem 1rem;
+}
+.modal-header .modal-title { font-weight: 700; display: flex; align-items: center; gap: .6rem; }
+.modal-header .fa-solid { color: var(--color-accent); }
+
+/* Body del modal */
+.modal-body {
+  background: var(--color-light);
+  color: var(--color-text);
+  padding: 1.25rem;
+}
+
+/* Inputs dentro de modal */
+.modal .form-control {
+  border: 1px solid rgba(16,33,75,0.12);
+  border-radius: 8px;
+  padding: .6rem .75rem;
+  background: #fff;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.modal .form-control:focus {
+  box-shadow: 0 6px 16px rgba(16,33,75,0.06);
+  border-color: var(--color-primary);
+  outline: none;
+}
+.form-text { color: rgba(16,33,75,0.6); }
+
+/* Footer del modal */
+.modal-footer {
+  background: linear-gradient(180deg, rgba(235,231,225,0.0), rgba(235,231,225,0.02));
+  border-top: none;
+  padding: 1rem;
+}
+.modal-footer .btn-secondary {
+  background: transparent; border: 1px solid rgba(16,33,75,0.12);
+  color: var(--color-text); border-radius: 8px;
+}
+.modal-footer .btn-primary {
+  background: var(--color-primary) !important; color: var(--color-light) !important;
+  border-radius: 8px; padding: .5rem .95rem; font-weight: 600;
+}
+
+/* ================================
+   BOTONES (estilo global y mapeo de bootstrap)
+   ================================ */
+/* Botón destacado/acento (reutilizable) */
+.btn-accent { /* ya definido más arriba para header, repetimos con la misma intención*/
+  background: var(--color-accent) !important;
+  color: var(--color-primary) !important;
+  border: 0; padding: .45rem .9rem; border-radius: 999px; font-weight: 600;
+}
+
+/* Mapeo de botones Bootstrap usados frecuentemente */
+.btn-success { background-color: var(--color-accent) !important; color: var(--color-primary) !important; border: none; }
+.btn-primary { background-color: var(--color-primary) !important; color: var(--color-light) !important; border: none; }
+.btn-warning { background-color: #F2C46D !important; color: var(--color-primary) !important; border: none; }
+.btn-danger { background-color: #C94A45 !important; color: #fff !important; border: none; }
+
+/* Botones pequeños */
+.btn-sm { padding: .32rem .6rem; font-size: .88rem; }
+
+/* ================================
+   FORMULARIOS & UTILIDADES
+   ================================ */
+.form-label { font-weight: 600; color: rgba(16,33,75,0.9); }
+.input-group .form-control { border-radius: 6px; }
+.invalid-feedback { color: #A1342A; }
+
+/* Text helpers */
+.text-muted-strong { color: rgba(16,33,75,0.6) !important; }
+.small-note { font-size: .9rem; color: rgba(16,33,75,0.55); }
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 767.98px) {
+  .navbar-brand img { height: 56px; }
+  .navbar-brand span { font-size: 1.02rem; }
+  .navbar .nav-link { font-size: .95rem; padding: .45rem .5rem; }
+  .btn-accent { padding: .35rem .7rem; font-size: .92rem; }
+}
+@media (max-width: 575.98px) {
+  .modal-dialog { max-width: 92%; margin: 1.25rem auto; }
+  .table td, .table th { padding: .6rem .45rem; font-size: .92rem; }
+}
+    </style>
+
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+
+<!-- Navbar -->
+<header class="shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
-                <img src="/assets/logo.png" alt="Logo de ServerEnjoyers">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" th:href="@{/}">
+                <img src="/assets/logo4.png" alt="Logo" height="100" class="rounded">
                 <span>ServerEnjoyers</span>
             </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
                     <li class="nav-item"><a class="nav-link active" th:href="@{/alquileres}">Alquileres</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-accent" th:href="@{/registro}">Registro</a></li>
-                    <li class="nav-item" th:if="${session.clienteAutenticadoId == null}">
-                        <a class="nav-link" th:href="@{/login}">Login</a>
-                    </li>
-                    <li class="nav-item" th:if="${session.clienteAutenticadoId != null}">
-                        <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
-                    </li>
-                    <li class="nav-item" th:if="${session.clienteAutenticadoId != null}">
-                        <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
+                    <li class="nav-item"><a class="btn btn-accent ms-lg-3" th:href="@{/registro}">Registro</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
 
-<main class="py-5">
-    <div class="container">
-        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+<!-- Cuerpo -->
+<main class="container py-5">
+    <!-- Success alert (visible tras redirect gracias a flash attribute) -->
+    <div th:if="${successMessage}" class="mb-3">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${successMessage}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-            <span th:text="${errorMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
-            <div class="text-center text-lg-start">
-                <h1 class="h2 fw-bold mb-1">Control de alquileres</h1>
-                <p class="text-muted-strong mb-0">Visualiza reservas activas y programa nuevas recogidas.</p>
-            </div>
-            <button type="button" class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#nuevoAlquilerModal">
-                Nuevo alquiler
-            </button>
-        </div>
-
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table mb-0 align-middle text-center">
-                        <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Vehículo</th>
-                            <th>Fecha inicio</th>
-                            <th>Fecha fin</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="alquiler : ${alquileres}">
-                            <td th:text="${alquiler.id}"></td>
-                            <td th:text="${alquiler.cliente != null ? alquiler.cliente.nombre + ' ' + alquiler.cliente.apellidos : 'N/A'}"></td>
-                            <td th:text="${alquiler.vehiculo != null ? alquiler.vehiculo.marca + ' ' + alquiler.vehiculo.modelo : 'N/A'}"></td>
-                            <td th:text="${alquiler.fechaInicio}"></td>
-                            <td th:text="${alquiler.fechaFin}"></td>
-                            <td>
-                                <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" method="post"
-                                      th:onsubmit="return confirm('¿Eliminar alquiler?');" class="d-inline">
-                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(alquileres)}">
-                            <td colspan="6" class="py-4 text-muted-strong">No hay alquileres registrados.</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
+
+    <h1 class="mb-4 text-center">Listado de Alquileres</h1>
+
+    <!-- Botón para crear alquiler -->
+    <div class="text-end mb-3">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nuevoAlquilerModal">
+            <i class="fa-solid fa-plus"></i>  Nuevo Alquiler
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle text-center">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Vehículo</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Precio alquiler</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iteramos sobre la colección "alquileres" que el controlador pone en el modelo -->
+            <tr th:each="alquiler : ${alquileres}">
+                <td th:text="${alquiler.id}"></td>
+                <td th:text="${alquiler.cliente.nombre} + ' ' + ${alquiler.cliente.apellidos}"></td>
+                <td th:text="${alquiler.vehiculo.marca} + ' ' + ${alquiler.vehiculo.modelo}"></td>
+                <td th:text="${alquiler.fechaInicio}"></td>
+                <td th:text="${alquiler.fechaFin}"></td>
+                <td th:text="${alquiler.precioAlquiler} + '€'"></td>
+                <td>
+                    <!-- Enlaces para editar/eliminar -->
+                    <a th:href="@{/alquileres/editar/{id}(id=${alquiler.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                    <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" method="post" th:onsubmit="return confirm('¿Eliminar vehículo?');" style="display:inline;">
+                        <!-- Si usas Spring Security, añade el token CSRF automáticamente -->
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+
+            <!-- Mensaje si no hay alquileres -->
+            <tr th:if="${#lists.isEmpty(alquileres)}">
+                <td colspan="5">No hay alquileres registrados.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </main>
 
-<footer class="footer text-center">
-    <div class="container">
-        <p>&copy; 2025 ServerEnjoyers. Todos los derechos reservados.</p>
-        <p class="mb-0 footer-subtitle">Gestión confiable de reservas y devoluciones.</p>
-    </div>
-</footer>
 
-<div class="modal fade" id="nuevoAlquilerModal" tabindex="-1" aria-hidden="true">
+<!-- Modal para nuevo alquiler -->
+<div class="modal fade" id="nuevoAlquilerModal" tabindex="-1" aria-labelledby="nuevoAlquilerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/alquileres/nuevo}" th:object="${alquilerForm}" method="post">
+            <form th:action="@{/alquileres/nuevo}" th:object="${alquiler}" method="post" id="alquilerForm">
                 <div class="modal-header">
-                    <h5 class="modal-title">Registrar alquiler</h5>
+                    <h5 class="modal-title" id="nuevoAlquilerModalLabel">
+                        <i class="fa-solid fa-rectangle-list"></i> Registrar nuevo alquiler
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
+
                 <div class="modal-body">
+                    <!-- Mensaje de error dentro del modal -->
+                    <div th:if="${errorMessageNuevo}" class="mb-3">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span th:text="${errorMessageNuevo}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Cliente</label>
-                        <select class="form-select" name="clienteId" required>
-                            <option value="" selected disabled>Selecciona un cliente</option>
+                        <label for="clienteSelect" class="form-label">Cliente</label>
+                        <select class="form-select" th:field="*{cliente.id}" id="clienteSelect" required>
+                            <option value="" th:text="'Seleccionar cliente...'" th:selected="*{cliente == null}"></option>
                             <option th:each="cliente : ${clientes}"
                                     th:value="${cliente.id}"
-                                    th:selected="${clienteSeleccionado != null and clienteSeleccionado == cliente.id}"
-                                    th:text="${cliente.nombre + ' ' + cliente.apellidos}"></option>
+                                    th:text="${cliente.nombre} + ' ' + ${cliente.apellidos}">
+                            </option>
                         </select>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Vehículo</label>
-                        <select class="form-select" name="vehiculoId" required>
-                            <option value="" selected disabled>Selecciona un vehículo</option>
+                        <label for="vehiculoSelect" class="form-label">Vehículo</label>
+                        <select class="form-select" th:field="*{vehiculo.id}" id="vehiculoSelect" required>
+                            <option value="" th:text="'Seleccionar vehículo...'" th:selected="*{vehiculo == null}"></option>
                             <option th:each="vehiculo : ${vehiculos}"
                                     th:value="${vehiculo.id}"
-                                    th:selected="${vehiculoSeleccionado != null and vehiculoSeleccionado == vehiculo.id}"
-                                    th:text="${vehiculo.marca + ' ' + vehiculo.modelo + ' (' + vehiculo.matricula + ')'}"></option>
+                                    th:text="${vehiculo.marca} + ' ' + ${vehiculo.modelo}">
+                            </option>
                         </select>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Fecha inicio</label>
-                        <input type="date" class="form-control" th:field="*{fechaInicio}" required>
+                        <label for="fechaInicio" class="form-label">Fecha inicio</label>
+                        <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" required />
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Fecha fin</label>
-                        <input type="date" class="form-control" th:field="*{fechaFin}" required>
+                        <label for="fechaFin" class="form-label">Fecha fin</label>
+                        <input type="date" th:field="*{fechaFin}" class="form-control" id="fechaFin" required />
                     </div>
+
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal para editar alquiler -->
+<div class="modal fade" id="editarAlquilerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/alquileres/editar}" th:object="${alquiler}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-solid fa-pen"></i> Editar Alquiler</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Mensaje de error si existe -->
+                    <div th:if="${errorMessageEdit}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span th:text="${errorMessageEdit}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+
+                    <!-- ID oculto -->
+                    <input type="hidden" th:field="*{id}" />
+
+                    <div class="mb-3">
+                        <label for="clienteEditSelect" class="form-label">Cliente</label>
+                        <select name="cliente.id" class="form-select" id="clienteEditSelect" required>
+                            <option value="" disabled>Seleccionar cliente...</option>
+                            <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
+                                    th:text="${cliente.nombre} + ' ' + ${cliente.apellidos}"
+                                    th:selected="${cliente.id} == ${alquiler.cliente.id}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="vehiculoEditSelect" class="form-label">Vehículo</label>
+                        <select name="vehiculo.id" class="form-select" id="vehiculoEditSelect" required>
+                            <option value="" disabled>Seleccionar vehículo...</option>
+                            <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}"
+                                    th:text="${vehiculo.marca} + ' ' + ${vehiculo.modelo}"
+                                    th:selected="${vehiculo.id} == ${alquiler.vehiculo.id}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fechaInicioEdit" class="form-label">Fecha inicio</label>
+                        <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicioEdit" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fechaFinEdit" class="form-label">Fecha fin</label>
+                        <input type="date" th:field="*{fechaFin}" class="form-control" id="fechaFinEdit" required />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS CDN -->
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous">
 </script>
+
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var showNuevoModal = /*[[${showNuevoModal}]]*/ false;
-    if (showNuevoModal) {
-        var modalEl = document.getElementById('nuevoAlquilerModal');
-        if (modalEl) {
-            var modal = new bootstrap.Modal(modalEl);
-            modal.show();
-        }
-    }
+      var errorMessageNuevo = /*[[${errorMessageNuevo}]]*/ null;
+      if (errorMessageNuevo) {
+        var myModalEl = document.getElementById('nuevoAlquilerModal');
+        var modal = new bootstrap.Modal(myModalEl);
+        modal.show();
+      }
     /*]]>*/
 </script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+      var openEdit = /*[[${openEditModal}]]*/ false;
+      if (openEdit) {
+        var editModalEl = document.getElementById('editarAlquilerModal');
+        var modal = new bootstrap.Modal(editModalEl);
+        modal.show();
+      }
+    /*]]>*/
+</script>
+
 </body>
 </html>

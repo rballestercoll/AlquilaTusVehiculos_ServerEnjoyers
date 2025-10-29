@@ -14,28 +14,28 @@
    VARIABLES DE PALETA
    ================================ */
 :root{
-    --color-primary: #10214B;   /* azul oscuro */
-    --color-accent:  #D7BD88;   /* dorado suave */
-    --color-muted:   #D0C3BA;   /* arena/gris cálido */
-    --color-light:   #EBE7E1;   /* blanco hueso */
-    --color-text:    #10214B;   /* texto principal */
-    --shadow:        0 6px 18px rgba(16,33,75,0.12);
+  --color-primary: #10214B;   /* azul oscuro */
+  --color-accent:  #D7BD88;   /* dorado suave */
+  --color-muted:   #D0C3BA;   /* arena/gris cálido */
+  --color-light:   #EBE7E1;   /* blanco hueso */
+  --color-text:    #10214B;   /* texto principal */
+  --shadow:        0 6px 18px rgba(16,33,75,0.12);
 }
 
 /* ================================
    GLOBAL / RESET
    ================================ */
 html, body {
-    height: 100%;
+  height: 100%;
 }
 body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--color-light);
-    color: var(--color-text);
-    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-light);
+  color: var(--color-text);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Utilidades generales */
@@ -46,44 +46,44 @@ body {
    NAVBAR — UNIFICADO
    ================================ */
 .navbar {
-    background-color: var(--color-primary) !important; /* fuerza paleta aunque haya style inline */
-    padding-top: .6rem;
-    padding-bottom: .6rem;
-    box-shadow: 0 2px 6px rgba(16,33,75,0.08);
+  background-color: var(--color-primary) !important; /* fuerza paleta aunque haya style inline */
+  padding-top: .6rem;
+  padding-bottom: .6rem;
+  box-shadow: 0 2px 6px rgba(16,33,75,0.08);
 }
 
 /* Brand (logo + texto) */
 .navbar-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
 }
 .navbar-brand img {
-    height: 72px;
-    width: auto;
-    object-fit: contain;
-    border-radius: 8px;
-    transition: height .12s ease;
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: height .12s ease;
 }
 .navbar-brand span {
-    color: var(--color-accent);
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.2px;
+  color: var(--color-accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 /* Nav links */
 .navbar .nav-link {
-    color: var(--color-light) !important;
-    font-size: .98rem;
-    padding: .45rem .65rem;
-    transition: color .18s ease;
+  color: var(--color-light) !important;
+  font-size: .98rem;
+  padding: .45rem .65rem;
+  transition: color .18s ease;
 }
 .navbar .nav-link:hover,
 .navbar .nav-link.active {
-    color: var(--color-accent) !important;
-    background: transparent !important;
-    text-decoration: none;
+  color: var(--color-accent) !important;
+  background: transparent !important;
+  text-decoration: none;
 }
 
 /* Toggler */
@@ -93,37 +93,37 @@ body {
 /* Registro (botón especial en header) */
 .btn-accent,
 .btn.btn-accent {
-    background: var(--color-accent) !important;
-    color: var(--color-primary) !important;
-    border: 0;
-    padding: .45rem .9rem;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: .95rem;
+  background: var(--color-accent) !important;
+  color: var(--color-primary) !important;
+  border: 0;
+  padding: .45rem .9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
 }
 .btn-accent:hover,
 .btn-accent:focus {
-    background: var(--color-muted) !important;
-    color: var(--color-primary) !important;
-    transform: translateY(-1px);
+  background: var(--color-muted) !important;
+  color: var(--color-primary) !important;
+  transform: translateY(-1px);
 }
 
 /* ================================
    HERO
    ================================ */
 .hero-section {
-    background: linear-gradient(rgba(16,33,75,0.8), rgba(16,33,75,0.8)), url('/assets/header.jpg') center/cover no-repeat;
-    color: var(--color-light);
-    min-height: 80vh;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
+  background: linear-gradient(rgba(16,33,75,0.8), rgba(16,33,75,0.8)), url('/assets/hero-bg.jpg') center/cover no-repeat;
+  color: var(--color-light);
+  min-height: 80vh;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
 }
 .hero-section .btn-register {
-    background-color: var(--color-accent);
-    color: var(--color-primary);
-    border: none;
-    transition: background-color .18s ease;
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  border: none;
+  transition: background-color .18s ease;
 }
 .hero-section .btn-register:hover { background-color: var(--color-muted); color: var(--color-primary); }
 
@@ -131,14 +131,14 @@ body {
    FEATURES / CARDS
    ================================ */
 .features, .features-section {
-    background-color: var(--color-light);
-    color: var(--color-text);
+  background-color: var(--color-light);
+  color: var(--color-text);
 }
 .feature-card {
-    background: #fff;
-    border: 1px solid var(--color-muted);
-    transition: transform .24s ease, box-shadow .24s ease;
-    border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--color-muted);
+  transition: transform .24s ease, box-shadow .24s ease;
+  border-radius: 10px;
 }
 .feature-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(16,33,75,0.08); }
 .feature-icon { color: var(--color-accent); font-size: 2.5rem; }
@@ -147,9 +147,9 @@ body {
    CTA
    ================================ */
 .cta-section {
-    background-color: var(--color-primary);
-    color: var(--color-light);
-    padding: 3rem 0;
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  padding: 3rem 0;
 }
 .cta-section .btn-accent { background-color: var(--color-accent); color: var(--color-primary); }
 .cta-section .btn-accent:hover { background-color: var(--color-muted); }
@@ -158,9 +158,9 @@ body {
    FOOTER
    ================================ */
 .footer {
-    background-color: var(--color-primary);
-    color: var(--color-light);
-    padding: 1.25rem 0;
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  padding: 1.25rem 0;
 }
 .footer p { margin: 0; }
 .footer .footer-brand { color: var(--color-accent); font-weight: 600; }
@@ -174,13 +174,13 @@ body {
 
 /* Cabecera */
 .table thead.table-dark, .table thead th.table-header {
-    background-color: var(--color-primary) !important;
-    color: var(--color-light);
+  background-color: var(--color-primary) !important;
+  color: var(--color-light);
 }
 .table thead th {
-    border-bottom: 2px solid rgba(0,0,0,0.06);
-    vertical-align: middle;
-    padding: .9rem .75rem;
+  border-bottom: 2px solid rgba(0,0,0,0.06);
+  vertical-align: middle;
+  padding: .9rem .75rem;
 }
 
 /* Filas y celdas */
@@ -198,71 +198,71 @@ body {
    ALERTAS
    ================================ */
 .alert-success {
-    background-color: rgba(215,189,136,0.14);
-    color: var(--color-text);
-    border: 1px solid rgba(215,189,136,0.28);
+  background-color: rgba(215,189,136,0.14);
+  color: var(--color-text);
+  border: 1px solid rgba(215,189,136,0.28);
 }
 .alert-danger {
-    background-color: rgba(201,74,69,0.08);
-    color: #7a1e1b;
-    border: 1px solid rgba(201,74,69,0.14);
+  background-color: rgba(201,74,69,0.08);
+  color: #7a1e1b;
+  border: 1px solid rgba(201,74,69,0.14);
 }
 
 /* ================================
    MODALES (nuevo / editar y otros)
    ================================ */
 .modal-content {
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    border: none;
-    overflow: hidden;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: none;
+  overflow: hidden;
 }
 
 /* Header del modal */
 .modal-header {
-    background: linear-gradient(90deg, rgba(16,33,75,0.98), rgba(16,33,75,0.9));
-    color: var(--color-light);
-    border-bottom: none;
-    padding: 1.05rem 1rem;
+  background: linear-gradient(90deg, rgba(16,33,75,0.98), rgba(16,33,75,0.9));
+  color: var(--color-light);
+  border-bottom: none;
+  padding: 1.05rem 1rem;
 }
 .modal-header .modal-title { font-weight: 700; display: flex; align-items: center; gap: .6rem; }
 .modal-header .fa-solid { color: var(--color-accent); }
 
 /* Body del modal */
 .modal-body {
-    background: var(--color-light);
-    color: var(--color-text);
-    padding: 1.25rem;
+  background: var(--color-light);
+  color: var(--color-text);
+  padding: 1.25rem;
 }
 
 /* Inputs dentro de modal */
 .modal .form-control {
-    border: 1px solid rgba(16,33,75,0.12);
-    border-radius: 8px;
-    padding: .6rem .75rem;
-    background: #fff;
-    transition: box-shadow .12s ease, border-color .12s ease;
+  border: 1px solid rgba(16,33,75,0.12);
+  border-radius: 8px;
+  padding: .6rem .75rem;
+  background: #fff;
+  transition: box-shadow .12s ease, border-color .12s ease;
 }
 .modal .form-control:focus {
-    box-shadow: 0 6px 16px rgba(16,33,75,0.06);
-    border-color: var(--color-primary);
-    outline: none;
+  box-shadow: 0 6px 16px rgba(16,33,75,0.06);
+  border-color: var(--color-primary);
+  outline: none;
 }
 .form-text { color: rgba(16,33,75,0.6); }
 
 /* Footer del modal */
 .modal-footer {
-    background: linear-gradient(180deg, rgba(235,231,225,0.0), rgba(235,231,225,0.02));
-    border-top: none;
-    padding: 1rem;
+  background: linear-gradient(180deg, rgba(235,231,225,0.0), rgba(235,231,225,0.02));
+  border-top: none;
+  padding: 1rem;
 }
 .modal-footer .btn-secondary {
-    background: transparent; border: 1px solid rgba(16,33,75,0.12);
-    color: var(--color-text); border-radius: 8px;
+  background: transparent; border: 1px solid rgba(16,33,75,0.12);
+  color: var(--color-text); border-radius: 8px;
 }
 .modal-footer .btn-primary {
-    background: var(--color-primary) !important; color: var(--color-light) !important;
-    border-radius: 8px; padding: .5rem .95rem; font-weight: 600;
+  background: var(--color-primary) !important; color: var(--color-light) !important;
+  border-radius: 8px; padding: .5rem .95rem; font-weight: 600;
 }
 
 /* ================================
@@ -270,9 +270,9 @@ body {
    ================================ */
 /* Botón destacado/acento (reutilizable) */
 .btn-accent { /* ya definido más arriba para header, repetimos con la misma intención*/
-    background: var(--color-accent) !important;
-    color: var(--color-primary) !important;
-    border: 0; padding: .45rem .9rem; border-radius: 999px; font-weight: 600;
+  background: var(--color-accent) !important;
+  color: var(--color-primary) !important;
+  border: 0; padding: .45rem .9rem; border-radius: 999px; font-weight: 600;
 }
 
 /* Mapeo de botones Bootstrap usados frecuentemente */
@@ -299,12 +299,12 @@ body {
    RESPONSIVE
    ================================ */
 @media (max-width: 767.98px) {
-    .navbar-brand img { height: 56px; }
-    .navbar-brand span { font-size: 1.02rem; }
-    .navbar .nav-link { font-size: .95rem; padding: .45rem .5rem; }
-    .btn-accent { padding: .35rem .7rem; font-size: .92rem; }
+  .navbar-brand img { height: 56px; }
+  .navbar-brand span { font-size: 1.02rem; }
+  .navbar .nav-link { font-size: .95rem; padding: .45rem .5rem; }
+  .btn-accent { padding: .35rem .7rem; font-size: .92rem; }
 }
 @media (max-width: 575.98px) {
-    .modal-dialog { max-width: 92%; margin: 1.25rem auto; }
-    .table td, .table th { padding: .6rem .45rem; font-size: .92rem; }
+  .modal-dialog { max-width: 92%; margin: 1.25rem auto; }
+  .table td, .table th { padding: .6rem .45rem; font-size: .92rem; }
 }
