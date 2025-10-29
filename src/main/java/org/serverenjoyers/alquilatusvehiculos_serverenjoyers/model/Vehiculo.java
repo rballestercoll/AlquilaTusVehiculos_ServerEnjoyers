@@ -70,7 +70,7 @@ public class Vehiculo {
         return precioDia;
     }
 
-    public void setPrecio_dia(float precioDia) {
+    public void setPrecioDia(float precioDia) {
         this.precioDia = precioDia;
     }
 }

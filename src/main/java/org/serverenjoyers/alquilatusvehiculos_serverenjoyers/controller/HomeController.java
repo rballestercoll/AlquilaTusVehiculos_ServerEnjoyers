@@ -1,13 +1,22 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class HomeController {
+
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
     @GetMapping("/home")
     public String home() {
-        return "Bienvenido a ¡AlquilaTusVehiculos!";
+        return "redirect:/";
     }
+
+    @GetMapping("/registro")
+    public String registro() { return "redirect:/clientes?register=true"; }
+
 }

@@ -75,14 +75,19 @@ La aplicación estará disponible en:
 Primero se debe compilar el proyecto
 
 ```bash
-mvn clean install -DskipTests
+docker compose down -v
 ```
 
 ```bash
-docker compose up --build
+docker compose build
+```
+
+```bash
+docker compose up -d
 ```
 
 👉 [http://localhost:8080](http://localhost:8080)
+👉 [http://localhost:8081](http://localhost:8080)
 
 ---
 

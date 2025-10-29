@@ -49,4 +49,21 @@ public class ClienteService {
     public void deleteCliente(Long id){
         clienteRepository.deleteById(id);
     }
+
+    public Cliente authenticateCliente(String email, String telefono) {
+        if (email == null || email.isBlank()) {
+            throw new RuntimeException("El email es obligatorio.");
+        }
+
+        Cliente cliente = clienteRepository.findByEmail(email.trim())
+                .orElseThrow(() -> new RuntimeException("No existe un cliente registrado con ese email."));
+
+        String telefonoRegistrado = cliente.getTelefono();
+        if (telefonoRegistrado != null && !telefonoRegistrado.isBlank()) {
+            if (telefono == null || telefono.isBlank() || !telefonoRegistrado.equals(telefono.trim())) {
+                throw new RuntimeException("El teléfono introducido no coincide con el registrado.");
+            }
+        }
+        return cliente;
+    }
 }

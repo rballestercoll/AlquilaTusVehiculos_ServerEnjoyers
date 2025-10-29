@@ -30,11 +30,19 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Registro</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/clientes(register=true)}">Registro</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/alquileres}">Alquileres</a></li>
+          <li class="nav-item" th:if="${session.clienteAutenticadoId == null}">
+            <a class="nav-link" th:href="@{/login}">Login</a>
+          </li>
+          <li class="nav-item" th:if="${session.clienteAutenticadoId != null}">
+            <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+          </li>
+          <li class="nav-item" th:if="${session.clienteAutenticadoId != null}">
+            <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -52,7 +60,7 @@
     Para comenzar a alquilar vehículos, por favor regístrate en nuestra plataforma.
   </p>
 
-  <a href="#" class="btn btn-register">Registrarse Ahora</a>
+  <a th:href="@{/clientes(register=true)}" class="btn btn-register">Registrarse Ahora</a>
 
   <div class="features">
     <div class="row">

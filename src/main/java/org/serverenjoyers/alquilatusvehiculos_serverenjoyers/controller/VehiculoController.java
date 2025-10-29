@@ -19,7 +19,7 @@ public class VehiculoController {
         return vehiculoService.getVehiculos();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Vehiculo getVehiculo(@PathVariable Long id){
         return vehiculoService.getVehiculo(id);
     }
