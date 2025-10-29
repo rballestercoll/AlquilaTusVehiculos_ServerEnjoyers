@@ -16,26 +16,38 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <!-- Fuente Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" th:href="@{/style.css}" href="/style.css">
+
 </head>
 <body>
 
 <!-- Header / Navbar -->
 <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
       <!-- Si usas fragments, aquí podrías usar th:replace para incluir el header compartido -->
-      <a class="navbar-brand fw-bold" th:href="@{/}">Alquiler de vehículos - ServerEnjoyers</a>
+      <a class="navbar-brand" th:href="@{/}">
+        <img src="/assets/logo.png" alt="Logo de ServerEnjoyers">
+        <span>ServerEnjoyers</span>
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" th:href="@{/registro}">Registro</a></li>
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
           <li class="nav-item"><a class="nav-link active" th:href="@{/clientes}">Clientes</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
           <li class="nav-item"><a class="nav-link" th:href="@{/alquileres}">Alquileres</a></li>
+          <li class="nav-item ms-lg-3"><a class="btn btn-accent" th:href="@{/registro}">Registro</a></li>
           <li class="nav-item" th:if="${session.clienteAutenticadoId == null}">
             <a class="nav-link" th:href="@{/login}">Login</a>
           </li>
@@ -52,62 +64,76 @@
 </header>
 
 <!-- Cuerpo -->
-<main class="container py-5">
-  <!-- Success alert (visible tras redirect gracias a flash attribute) -->
-  <div th:if="${successMessage}" class="mb-3">
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+<main class="py-5">
+  <div class="container">
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-4" role="alert">
       <span th:text="${successMessage}"></span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+      <span th:text="${errorMessage}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
+      <div class="text-center text-lg-start">
+        <h1 class="h2 fw-bold mb-1">Clientes registrados</h1>
+        <p class="text-muted-strong mb-0">Gestiona tus clientes desde un panel uniforme y moderno.</p>
+      </div>
+      <button type="button" class="btn btn-accent" data-bs-toggle="modal" data-bs-target="#nuevoClienteModal">
+        <i class="fa-solid fa-user-plus me-2"></i>Nuevo cliente
+      </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table mb-0 align-middle text-center">
+            <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cliente : ${clientes}">
+              <td th:text="${cliente.id}"></td>
+              <td th:text="${cliente.nombre}"></td>
+              <td th:text="${cliente.apellidos}"></td>
+              <td th:text="${cliente.email}"></td>
+              <td th:text="${cliente.telefono != null && !#strings.isEmpty(cliente.telefono) ? cliente.telefono : 'N/A'}"></td>
+              <td class="text-nowrap">
+                <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn btn-sm btn-primary me-2">
+                  <i class="fa-solid fa-user-pen me-1"></i>Editar
+                </a>
+                <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post" th:onsubmit="return confirm('¿Eliminar cliente?');" class="d-inline">
+                  <button type="submit" class="btn btn-sm btn-danger">
+                    <i class="fa-solid fa-trash me-1"></i>Eliminar
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(clientes)}">
+              <td colspan="6" class="py-4 text-muted-strong">No hay clientes registrados.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-
-  <h1 class="mb-4 text-center">Listado de Clientes</h1>
-
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered align-middle text-center">
-      <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Acciones</th>
-      </tr>
-      </thead>
-      <tbody>
-      <!-- Iteramos sobre la colección "clientes" que el controlador pone en el modelo -->
-      <tr th:each="cliente : ${clientes}">
-        <td th:text="${cliente.id}"></td>
-        <td th:text="${cliente.nombre}"></td>
-        <td th:text="${cliente.apellidos}"></td>
-        <td th:text="${cliente.email}"></td>
-        <td th:text="${cliente.telefono}"></td>
-        <td>
-          <!-- Enlaces para editar/eliminar -->
-          <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-user-pen"></i> Editar</a>
-          <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post" th:onsubmit="return confirm('¿Eliminar cliente?');" style="display:inline;">
-            <!-- Si usas Spring Security, añade el token CSRF automáticamente -->
-            <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
-          </form>
-        </td>
-      </tr>
-
-      <!-- Mensaje si no hay clientes -->
-      <tr th:if="${#lists.isEmpty(clientes)}">
-        <td colspan="5">No hay clientes registrados.</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Botón para crear cliente -->
-  <div class="text-end mb-3">
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nuevoClienteModal">
-      <i class="fa-solid fa-user-plus"></i>  Nuevo Cliente
-    </button>
-  </div>
 </main>
+
+<footer class="footer text-center">
+  <div class="container">
+    <p>&copy; 2025 ServerEnjoyers. Todos los derechos reservados.</p>
+    <p class="mb-0 footer-subtitle">Gestión integral de clientes y reservas.</p>
+  </div>
+</footer>
 
 
 <!-- Modal para nuevo cliente -->
@@ -117,7 +143,10 @@
       <!-- Bind del formulario al objeto cliente del model -->
       <form th:action="@{/clientes/nuevo}" th:object="${cliente}" method="post">
         <div class="modal-header">
-          <h5 class="modal-title" id="nuevoClienteModalLabel"><i class="fa-solid fa-user-tie"></i> Registrar nuevo cliente</h5>
+          <h5 class="modal-title d-flex align-items-center gap-2" id="nuevoClienteModalLabel">
+            <i class="fa-solid fa-user-tie"></i>
+            Registrar nuevo cliente
+          </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
 
@@ -150,8 +179,12 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> Cancelar</button>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fa-solid fa-xmark me-2"></i>Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk me-2"></i>Guardar
+          </button>
         </div>
       </form>
     </div>
@@ -164,7 +197,10 @@
     <div class="modal-content">
       <form th:action="@{/clientes/editar}" th:object="${cliente}" method="post">
         <div class="modal-header">
-          <h5 class="modal-title"><i class="fa-solid fa-user-pen"></i> Editar Cliente</h5>
+          <h5 class="modal-title d-flex align-items-center gap-2">
+            <i class="fa-solid fa-user-pen"></i>
+            Editar cliente
+          </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
@@ -192,8 +228,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> Cancelar</button>
-          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fa-solid fa-xmark me-2"></i>Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk me-2"></i>Guardar
+          </button>
         </div>
       </form>
     </div>

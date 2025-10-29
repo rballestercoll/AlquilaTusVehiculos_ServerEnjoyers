@@ -66,4 +66,8 @@ public class Alquiler {
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    public PrecioAlquiler getPrecioAlquiler() { return precioAlquiler;}
+
+    public void setPrecioAlquiler(PrecioAlquiler precioAlquiler) {this.precioAlquiler = precioAlquiler; }
 }
