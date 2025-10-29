@@ -7,11 +7,7 @@ import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service.VehiculoSer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -27,43 +23,99 @@ public class AlquilerViewController {
     private VehiculoService vehiculoService;
 
     @GetMapping("/alquileres")
-    public String listarAlquileres(Model model) {
-        model.addAttribute("alquileres", alquilerService.getAlquileres());
+    public String listarAlquileres(Model model){
         model.addAttribute("clientes", clienteService.getClientes());
         model.addAttribute("vehiculos", vehiculoService.getVehiculos());
-
-        if (!model.containsAttribute("alquilerForm")) {
-            model.addAttribute("alquilerForm", new Alquiler());
+        model.addAttribute("alquileres", alquilerService.getAlquileres());
+        if (!model.containsAttribute("alquiler")){
+            model.addAttribute("alquiler", new Alquiler());
         }
         return "alquileres";
     }
 
     @PostMapping("/alquileres/nuevo")
-    public String nuevoAlquiler(@RequestParam Long clienteId,
-                                @RequestParam Long vehiculoId,
-                                @ModelAttribute("alquilerForm") Alquiler alquiler,
-                                RedirectAttributes redirectAttributes) {
+    public String nuevoAlquiler(@ModelAttribute Alquiler alquiler, Model model, RedirectAttributes redirectAttributes){
         try {
-            alquilerService.addAlquiler(clienteId, vehiculoId, alquiler);
-            redirectAttributes.addFlashAttribute("successMessage", "Alquiler creado correctamente");
+            alquilerService.addAlquiler(alquiler.getCliente().getId(), alquiler.getVehiculo().getId(), alquiler);
+            redirectAttributes.addFlashAttribute("successMessage", "Alquiler se ha registrado correctamente");
+            return "redirect:/alquileres";
         } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("alquileres", alquilerService.getAlquileres());
+            model.addAttribute("clientes", clienteService.getClientes());
+            model.addAttribute("vehiculos", vehiculoService.getVehiculos());
+            model.addAttribute("alquiler", alquiler);
+            return "alquileres";
+        }
+    }
+
+    @PostMapping("/alquileres/eliminar/{id}")
+    public String eliminarAlquiler(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
+        try {
+            alquilerService.deleteAlquiler(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Alquiler eliminado correctamente");
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("alquilerForm", alquiler);
-            redirectAttributes.addFlashAttribute("showNuevoModal", true);
-            redirectAttributes.addFlashAttribute("clienteSeleccionado", clienteId);
-            redirectAttributes.addFlashAttribute("vehiculoSeleccionado", vehiculoId);
         }
         return "redirect:/alquileres";
     }
 
-    @PostMapping("/alquileres/eliminar/{id}")
-    public String eliminarAlquiler(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            alquilerService.deleteAlquiler(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Alquiler eliminado correctamente");
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        }
-        return "redirect:/alquileres";
+    @GetMapping("/alquileres/editar/{id}")
+    public String mostrarEditarAlquiler(@PathVariable Long id, Model model){
+        Alquiler alquiler = alquilerService.getAlquiler(id);
+        model.addAttribute("alquiler", alquiler);
+        model.addAttribute("alquileres", alquilerService.getAlquileres());
+        model.addAttribute("openEditModal", true);
+        model.addAttribute("clientes", clienteService.getClientes());
+        model.addAttribute("vehiculos", vehiculoService.getVehiculos());
+        return "alquileres";
     }
+
+    @PostMapping("/alquileres/editar")
+    public String editarAlquiler(@ModelAttribute Alquiler alquiler, Model model, RedirectAttributes redirectAttributes){
+        try {
+            alquilerService.updateAlquiler(alquiler.getId(), alquiler.getCliente().getId(), alquiler.getVehiculo().getId(), alquiler);
+            redirectAttributes.addFlashAttribute("successMessage", "Alquiler actualizado correctamente");
+            return "redirect:/alquileres";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "No se pudo actualizar: " + e.getMessage());
+            model.addAttribute("alquileres", alquilerService.getAlquileres());
+            model.addAttribute("openEditModal", true);
+            model.addAttribute("alquiler", alquiler);
+            return "alquileres";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

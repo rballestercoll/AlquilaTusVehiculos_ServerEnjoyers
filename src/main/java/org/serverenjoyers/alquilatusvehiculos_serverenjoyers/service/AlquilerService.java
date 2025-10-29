@@ -9,6 +9,8 @@ import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.Vehiculo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +38,20 @@ public class AlquilerService {
         throw new RuntimeException("Alquiler con ID " + id + " no encontrado.");
     }
 
+    public Float calcularPrecioAlquiler(Vehiculo vehiculo, LocalDate fechaInicio, LocalDate fechaFin) {
+        if (vehiculo == null || fechaInicio == null || fechaFin == null) {
+            return 0.0f;
+        }
+        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1;
+        return dias * vehiculo.getPrecioDia();
+    }
+
     public Alquiler addAlquiler(Long clienteId, Long vehiculoId, Alquiler alquiler){
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() -> new RuntimeException("Cliente con ID " + clienteId + " no encontrado."));
         Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId).orElseThrow(() -> new RuntimeException("Vehículo con ID " + vehiculoId + " no encontrado."));
         alquiler.setCliente(cliente);
         alquiler.setVehiculo(vehiculo);
+        alquiler.setPrecioAlquiler(calcularPrecioAlquiler(vehiculo, alquiler.getFechaInicio(), alquiler.getFechaFin()));
         return alquilerRepository.save(alquiler);
     }
 
@@ -55,6 +66,7 @@ public class AlquilerService {
         alquilerExistente.setVehiculo(vehiculo);
         alquilerExistente.setFechaInicio(alquiler.getFechaInicio());
         alquilerExistente.setFechaFin(alquiler.getFechaFin());
+        alquilerExistente.setPrecioAlquiler(calcularPrecioAlquiler(vehiculo, alquiler.getFechaInicio(), alquiler.getFechaFin()));
         return alquilerRepository.save(alquilerExistente);
     }
 

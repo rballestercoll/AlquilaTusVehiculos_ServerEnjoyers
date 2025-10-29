@@ -16,7 +16,4 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/registro")
-    public String registro() { return "redirect:/clientes?register=true"; }
-
 }

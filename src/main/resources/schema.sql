@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS alquiler (
     vehiculo_id BIGINT NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
+    precio_alquiler DECIMAL(10,2) NOT NULL,
     CONSTRAINT fk_alquiler_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id_cliente),
     CONSTRAINT fk_alquiler_vehiculo FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id_vehiculo)
 );
