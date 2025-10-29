@@ -28,14 +28,10 @@ public class ClienteService {
     }
 
     public Cliente addCliente(Cliente cliente){
-        if (cliente.getNombre() != null && cliente.getApellidos() != null && cliente.getEmail() != null){
-            if (clienteRepository.existsByEmail(cliente.getEmail())){
-                throw new DuplicateEmailException("El email ya está registrado");
-            } else {
-                return clienteRepository.save(cliente);
-            }
+        if (clienteRepository.existsByEmail(cliente.getEmail())){
+            throw new DuplicateEmailException("El email ya está registrado");
         }
-        throw new RuntimeException("Es necesario rellenar todos los campos del cliente");
+        return clienteRepository.save(cliente);
     }
 
     public Cliente updateCliente(Cliente cliente){

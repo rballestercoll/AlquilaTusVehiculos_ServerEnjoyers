@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro - Alquiler de vehículos</title>
+
+  <!-- Bootstrap CSS CDN -->
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous"
+  >
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom Style -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: #FAF6EA;">
+
+<!-- Navbar -->
+<header class="shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" th:href="@{/}">
+        <img src="/assets/logo4.png" alt="Logo" height="100" class="rounded">
+        <span>ServerEnjoyers</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/alquileres}">Alquileres</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
+          <li class="nav-item"><a class="btn btn-accent ms-lg-3" th:href="@{/registro}">Registro</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<!-- Cuerpo -->
+<main class="container py-5">
+  <div class="text-center">
+    <h1 class="mb-4 text-center">Estamos trabajando en ello...</h1>
+    <img src="/assets/web_soon.png" height="400" alt="Logo" class="rounded">
+  </div>
+</main>
+<!-- Bootstrap JS CDN -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

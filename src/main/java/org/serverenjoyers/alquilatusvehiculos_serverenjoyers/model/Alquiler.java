@@ -1,7 +1,6 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -26,6 +25,9 @@ public class Alquiler {
 
     @Column(name = "fecha_fin", nullable = false)
     private LocalDate fechaFin;
+
+    @Column(name = "precio_alquiler")
+    private Float precioAlquiler;
 
     public Long getId() {
         return id;
@@ -65,5 +67,13 @@ public class Alquiler {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public Float getPrecioAlquiler() {
+        return precioAlquiler;
+    }
+
+    public void setPrecioAlquiler(Float precioAlquiler) {
+        this.precioAlquiler = precioAlquiler;
     }
 }

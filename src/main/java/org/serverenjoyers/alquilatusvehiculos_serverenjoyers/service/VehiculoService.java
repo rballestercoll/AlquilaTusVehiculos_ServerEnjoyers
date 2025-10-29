@@ -1,5 +1,6 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service;
 
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.exception.DuplicateMatriculaException;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Vehiculo;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.VehiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +27,18 @@ public class VehiculoService {
         throw new RuntimeException("Vehículo con id: " + id + " no encontrado,");
     }
 
-    public Vehiculo addVehiculo(Vehiculo vehiculo){
-        if (
-                vehiculo.getPrecioDia() != 0 &&
-                vehiculo.getMatricula() != null &&
-                vehiculo.getModelo() != null &&
-                vehiculo.getMarca() != null &&
-                vehiculo.getPasajeros() != 0){
-            return vehiculoRepository.save(vehiculo);
+    public Vehiculo addVehiculo(Vehiculo vehiculo) {
+        if (vehiculoRepository.existsByMatricula(vehiculo.getMatricula())) {
+            throw new DuplicateMatriculaException("La matrícula ya está registrada");
         }
-        throw new RuntimeException("Es necesario rellenar todos los campos del vehículos.");
+        return vehiculoRepository.save(vehiculo);
     }
 
     public Vehiculo updateVehiculo(Vehiculo vehiculo){
+        Optional<Vehiculo> findByMatricula = vehiculoRepository.findByMatricula(vehiculo.getMatricula());
+        if (findByMatricula.isPresent() && !findByMatricula.get().getId().equals(vehiculo.getId())){
+            throw new DuplicateMatriculaException("La matrícula ya está en uso por otro vehículo");
+        }
         return vehiculoRepository.save(vehiculo);
     }
 

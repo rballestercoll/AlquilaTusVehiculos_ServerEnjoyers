@@ -24,7 +24,7 @@ public class Vehiculo {
     private int pasajeros;
 
     @Column(name = "precio_dia")
-    private float precioDia;
+    private Float precioDia;
 
     public Long getId() {
         return id;
@@ -66,11 +66,11 @@ public class Vehiculo {
         this.pasajeros = pasajeros;
     }
 
-    public float getPrecioDia() {
+    public Float getPrecioDia() {
         return precioDia;
     }
 
-    public void setPrecio_dia(float precioDia) {
+    public void setPrecioDia(Float precioDia) {
         this.precioDia = precioDia;
     }
 }
