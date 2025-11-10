@@ -8,34 +8,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @Controller
 public class PerfilController {
 
-    @Autowired
-    private ClienteService clienteService;
 
     @Autowired
     private AlquilerService alquilerService;
 
     @GetMapping("/perfil")
-    public String verPerfil(Model model, HttpSession session, RedirectAttributes redirectAttributes){
-        Long clienteId = (Long) session.getAttribute("clienteAutenticadoId");
-        if (clienteId == null){
-            redirectAttributes.addFlashAttribute("errorMessage", "Debes iniciar sesión para acceder a tu perfil.");
-            return "redirect:/login";
+    public String verPerfil(Model model, @AuthenticationPrincipal Cliente clienteLogueado) {
+        try {
+            // 5. Usamos directamente el objeto 'clienteLogueado'
+            //    Spring Security nos lo da ya cargado de la BBDD.
+            model.addAttribute("cliente", clienteLogueado);
+            model.addAttribute("alquileres", alquilerService.getAlquileresPorCliente(clienteLogueado.getId()));
+
+        } catch (RuntimeException e) {
+            // Si algo falla, lo mejor es redirigir al login
+            return "redirect:/login?error=" + e.getMessage();
         }
 
-        try {
-            Cliente cliente = clienteService.getCliente(clienteId);
-            model.addAttribute("cliente", cliente);
-            model.addAttribute("alquileres", alquilerService.getAlquileresPorCliente(clienteId));
-        } catch (RuntimeException e){
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            session.invalidate();
-            return "redirect:/login";
-        }
+        // 6. Devolvemos la vista de perfil
         return "perfil";
     }
 }
