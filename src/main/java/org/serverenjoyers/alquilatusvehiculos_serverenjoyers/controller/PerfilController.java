@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @Controller
 public class PerfilController {
@@ -25,7 +26,7 @@ public class PerfilController {
             model.addAttribute("cliente", clienteLogueado);
             model.addAttribute("alquileres", alquilerService.getAlquileresPorCliente(clienteLogueado.getId()));
 
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e){
             // Si algo falla, lo mejor es redirigir al login
             return "redirect:/login?error=" + e.getMessage();
         }
