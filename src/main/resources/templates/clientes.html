@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -376,11 +376,11 @@ body {
   <h1 class="mb-4 text-center">Listado de Clientes</h1>
 
   <!-- Botón para crear cliente -->
-  <div class="text-end mb-3">
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nuevoClienteModal">
-      <i class="fa-solid fa-plus"></i>  Nuevo Cliente
-    </button>
-  </div>
+    <div class="text-end mb-3" sec:authorize="hasRole('ADMIN')">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nuevoClienteModal">
+            <i class="fa-solid fa-plus"></i>  Nuevo Cliente
+        </button>
+    </div>
 
   <div class="table-responsive">
     <table class="table table-striped table-bordered align-middle text-center">
@@ -391,7 +391,7 @@ body {
         <th>Apellidos</th>
         <th>Email</th>
         <th>Teléfono</th>
-        <th>Acciones</th>
+        <th sec:authorize="hasRole('ADMIN')">Acciones</th>
       </tr>
       </thead>
       <tbody>
@@ -402,7 +402,7 @@ body {
         <td th:text="${cliente.apellidos}"></td>
         <td th:text="${cliente.email}"></td>
         <td th:text="${cliente.telefono}"></td>
-        <td>
+        <td sec:authorize="hasRole('ADMIN')">
           <!-- Enlaces para editar/eliminar -->
           <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-user-pen"></i> Editar</a>
           <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post" th:onsubmit="return confirm('¿Eliminar cliente?');" style="display:inline;">

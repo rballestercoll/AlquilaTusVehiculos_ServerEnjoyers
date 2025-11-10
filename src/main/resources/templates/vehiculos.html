@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -389,7 +389,7 @@ body {
                 <th>Matrícula</th>
                 <th>Pasajeros</th>
                 <th>Precio/día</th>
-                <th>Acciones</th>
+                <th sec:authorize="hasRole('ADMIN')">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -401,7 +401,7 @@ body {
                 <td th:text="${vehiculo.matricula}"></td>
                 <td th:text="${vehiculo.pasajeros}"></td>
                 <td th:text="${vehiculo.precioDia} + '€'"></td>
-                <td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <!-- Enlaces para editar/eliminar -->
                     <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
                     <form th:action="@{/vehiculos/eliminar/{id}(id=${vehiculo.id})}" method="post" th:onsubmit="return confirm('¿Eliminar vehículo?');" style="display:inline;">
@@ -426,7 +426,7 @@ body {
     <div class="modal-dialog">
         <div class="modal-content">
             <form th:action="@{/vehiculos/nuevo}" th:object="${vehiculo}" method="post" id="vehiculoForm">
-                <div class="modal-header">
+                <div class="modal-header" sec:authorize="hasRole('ADMIN')">
                     <h5 class="modal-title" id="nuevoVehiculoModalLabel">
                         <i class="fa-solid fa-car"></i> Registrar nuevo vehículo
                     </h5>
