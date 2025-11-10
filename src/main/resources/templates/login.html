@@ -72,16 +72,23 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
 
-                        <form th:action="@{/login}" th:object="${loginForm}" method="post" novalidate>
+                        <form th:action="@{/login}" method="post" novalidate>
+
+                            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                                Email o contraseña incorrectos.
+                            </div>
+                            <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                                Has cerrado sesión correctamente.
+                            </div>
+
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" th:field="*{email}" class="form-control" id="email" required>
+                                <input type="email" name="username" class="form-control" id="email" required>
                             </div>
                             <div class="mb-3">
-                                <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" th:field="*{telefono}" class="form-control" id="telefono"
-                                       placeholder="Introduce tu teléfono registrado" required>
-                                <div class="form-text">Se utiliza como código de verificación.</div>
+                                <label for="telefono" class="form-label">Contraseña</label>
+                                <input type="password" name="password" class="form-control" id="password"
+                                       placeholder="Introduce tu contraseña" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Acceder</button>

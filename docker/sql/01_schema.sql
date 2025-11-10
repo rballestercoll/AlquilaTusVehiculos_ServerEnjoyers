@@ -3,7 +3,11 @@ CREATE TABLE IF NOT EXISTS clientes (
     nombre VARCHAR(255),
     apellidos VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
-    telefono VARCHAR(20)
+    telefono VARCHAR(20),
+
+    -- CAMPOS NUEVOS
+    password VARCHAR(255) NOT NULL, -- Guardará la contraseña cifrada (que es larga)
+    rol VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS vehiculos (
