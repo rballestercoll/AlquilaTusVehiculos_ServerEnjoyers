@@ -407,7 +407,7 @@ body {
                 <td>
                     <!-- Enlaces para editar/eliminar -->
                     <a th:href="@{/alquileres/editar/{id}(id=${alquiler.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
-                    <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" method="post" th:onsubmit="return confirm('¿Eliminar vehículo?');" style="display:inline;">
+                    <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" method="post" th:onsubmit="return confirm('¿Eliminar alquiler?');" style="display:inline;">
                         <!-- Si usas Spring Security, añade el token CSRF automáticamente -->
                         <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
                     </form>
@@ -556,6 +556,13 @@ body {
     </div>
 </div>
 
+<!-- Footer -->
+<footer class="footer text-center py-4">
+    <div class="container">
+        <p class="mb-1">&copy; 2025 <span class="footer-brand">ServerEnjoyers</span>. Todos los derechos reservados.</p>
+        <p class="small footer-subtitle mb-0">Alquiler de vehículos premium</p>
+    </div>
+</footer>
 
 <!-- Bootstrap JS CDN -->
 <script
