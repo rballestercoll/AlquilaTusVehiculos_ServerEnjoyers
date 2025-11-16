@@ -62,4 +62,9 @@ public class ClienteService {
         }
         return cliente;
     }
+
+    public Cliente getClientePorEmail(String email) {
+        return clienteRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("No se encontró cliente con email: " + email));
+    }
 }

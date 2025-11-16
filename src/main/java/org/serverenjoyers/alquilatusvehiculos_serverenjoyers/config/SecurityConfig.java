@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.UsuarioRepository; // <-- CAMBIO
 
 @Configuration
 @EnableWebSecurity
@@ -29,9 +30,9 @@ public class SecurityConfig {
      * Inyectamos tu ClienteRepository y le decimos que busque por email.
      */
     @Bean
-    public UserDetailsService userDetailsService(ClienteRepository clienteRepository) {
-        return email -> clienteRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("No se encontró cliente con email: " + email));
+    public UserDetailsService userDetailsService(UsuarioRepository usuarioRepository) { // <-- CAMBIO
+        return email -> usuarioRepository.findByEmail(email) // <-- CAMBIO
+                .orElseThrow(() -> new UsernameNotFoundException("No se encontró usuario con email: " + email));
     }
 
     /**
@@ -54,7 +55,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/clientes/**", "/vehiculos/**").hasRole("ADMIN")  // las rutas del admin
 
-                        .requestMatchers("/perfil", "/alquileres/**").hasRole("USER") // las rutas del usuario
+                        .requestMatchers("/perfil", "/alquileres/**").hasAnyRole("USER", "ADMIN")
 
                         // 2. Todo lo demás (anyRequest) debe estar AUTENTICADO (requiere login)
                         .anyRequest().authenticated()
