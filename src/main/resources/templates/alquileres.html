@@ -360,10 +360,10 @@ body {
                         <a class="nav-link" th:href="@{/clientes}">Clientes</a>
                     </li>
 
-                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                    <li class="nav-item" sec:authorize="hasRole('USER', 'ADMIN')">
                         <a class="nav-link" th:href="@{/alquileres}">Alquileres</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                    <li class="nav-item" sec:authorize="hasRole('USER', 'ADMIN')">
                         <a class="nav-link" th:href="@{/perfil}">Mi Perfil</a>
                     </li>
 
@@ -426,7 +426,7 @@ body {
                 <td th:text="${alquiler.fechaInicio}"></td>
                 <td th:text="${alquiler.fechaFin}"></td>
                 <td th:text="${alquiler.precioAlquiler} + '€'"></td>
-                <td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <!-- Enlaces para editar/eliminar -->
                     <a th:href="@{/alquileres/editar/{id}(id=${alquiler.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
                     <form th:action="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" method="post" th:onsubmit="return confirm('¿Eliminar vehículo?');" style="display:inline;">
