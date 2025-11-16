@@ -18,10 +18,15 @@ public class Cliente {
     private String apellidos;
 
     @Column(nullable = false, unique = true, length = 255)
-    private String email; // Este será el "enlace" con la tabla usuarios
+    private String email;
 
     @Column(length = 20)
     private String telefono;
+
+    @Transient // <-- ¡VITAL! Le dice a JPA que ignore este campo
+    private String password;
+
+    // --- Getters y Setters ---
 
     public Long getId() {
         return id;
@@ -63,14 +68,10 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-
-    @Transient // <-- Esto le dice a JPA que "ignore" este campo para la BBDD
-    private String password;
-
-    // ... (y sus getters/setters)
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

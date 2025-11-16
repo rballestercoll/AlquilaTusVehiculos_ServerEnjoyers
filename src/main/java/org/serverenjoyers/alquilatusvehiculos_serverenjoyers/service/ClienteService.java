@@ -27,6 +27,12 @@ public class ClienteService {
         throw new RuntimeException("Cliente con ID " + id + " no encontrado");
     }
 
+    // Método nuevo que necesita PerfilController
+    public Cliente getClientePorEmail(String email) {
+        return clienteRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("No se encontró cliente con email: " + email));
+    }
+
     public Cliente addCliente(Cliente cliente){
         if (clienteRepository.existsByEmail(cliente.getEmail())){
             throw new DuplicateEmailException("El email ya está registrado");
@@ -46,25 +52,5 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public Cliente authenticateCliente(String email, String telefono) {
-        if (email == null || email.isBlank()) {
-            throw new RuntimeException("El email es obligatorio.");
-        }
-
-        Cliente cliente = clienteRepository.findByEmail(email.trim())
-                .orElseThrow(() -> new RuntimeException("No existe un cliente registrado con ese email."));
-
-        String telefonoRegistrado = cliente.getTelefono();
-        if (telefonoRegistrado != null && !telefonoRegistrado.isBlank()) {
-            if (telefono == null || telefono.isBlank() || !telefonoRegistrado.equals(telefono.trim())) {
-                throw new RuntimeException("El teléfono introducido no coincide con el registrado.");
-            }
-        }
-        return cliente;
-    }
-
-    public Cliente getClientePorEmail(String email) {
-        return clienteRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("No se encontró cliente con email: " + email));
-    }
+    // El método authenticateCliente (con teléfono) se ha eliminado.
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RolRepository extends JpaRepository<Rol, Long> {
-    // No necesitamos métodos custom, el findById(2L) que usaremos ya viene incluido.
+    // No necesitamos métodos custom por ahora
 }

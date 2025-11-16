@@ -7,9 +7,8 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    // Spring Security nos pedirá buscar por email (que es nuestro username)
+
     Optional<Usuario> findByEmail(String email);
 
-    // (Opcional pero recomendado) Comprobar si el email ya existe
     boolean existsByEmail(String email);
 }

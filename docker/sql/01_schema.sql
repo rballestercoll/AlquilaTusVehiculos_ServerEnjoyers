@@ -45,6 +45,5 @@ CREATE TABLE IF NOT EXISTS alquiler (
 );
 
 -- 6. Insertar los Roles (IMPORTANTE)
--- (Usamos INSERT IGNORE para que no falle si ya existen)
 INSERT IGNORE INTO roles (id, nombre) VALUES (1, 'ROLE_ADMIN');
 INSERT IGNORE INTO roles (id, nombre) VALUES (2, 'ROLE_USER');

@@ -26,11 +26,9 @@ public class Usuario implements UserDetails {
     private Rol rol;
 
     // --- Métodos de UserDetails ---
-    // (Estos son los métodos que ANTES estaban en Cliente.java)
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Obtenemos el nombre del rol (ej. "ROLE_USER") y lo convertimos en autoridad
         return List.of(new SimpleGrantedAuthority(rol.getNombre()));
     }
 
@@ -44,7 +42,6 @@ public class Usuario implements UserDetails {
         return this.email;
     }
 
-    // Dejamos estos en true por simplicidad
     @Override
     public boolean isAccountNonExpired() { return true; }
     @Override

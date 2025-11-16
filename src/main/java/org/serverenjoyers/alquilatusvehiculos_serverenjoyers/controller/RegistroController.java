@@ -1,6 +1,5 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.controller;
 
-// ... (imports)
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.exception.DuplicateEmailException;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Cliente;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Rol;
@@ -25,10 +24,10 @@ public class RegistroController {
     private ClienteService clienteService;
 
     @Autowired
-    private UsuarioRepository usuarioRepository; // <-- NUEVO
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private RolRepository rolRepository; // <-- NUEVO
+    private RolRepository rolRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -41,35 +40,17 @@ public class RegistroController {
         return "registro";
     }
 
-    /**
-     * Usamos @Transactional para que si falla el guardado del Usuario,
-     * se deshaga (rollback) el guardado del Cliente.
-     */
     @PostMapping("/registro")
     @Transactional
     public String registrarCliente(@ModelAttribute("cliente") Cliente cliente,
                                    RedirectAttributes redirectAttributes) {
 
-        // El @ModelAttribute("cliente") tiene el email, nombre, apellidos, telefono
-        // Y también hemos sido listos y hemos usado el campo 'password' en el HTML.
-        // Spring lo capturará aunque 'Cliente' no tenga ese campo.
-        // Pero para ser más limpios, deberíamos usar un DTO (un objeto de formulario).
-        // Por ahora, lo recuperamos del objeto cliente aunque no sea un campo de entidad.
-
-        // PERO, tu registro.html usa th:field="*{password}".
-        // Esto NO funcionará si Cliente no tiene un campo password.
-
-        // --- SOLUCIÓN RÁPIDA ---
-        // 1. Añade `private String password;` (SIN @Column) a tu `Cliente.java`.
-        // 2. Y su getter/setter `getPassword() / setPassword(String password)`
-        // Así el formulario funciona, pero no se guarda en la BBDD de clientes.
-        // --- ASUMAMOS QUE HEMOS HECHO LA SOLUCIÓN RÁPIDA ---
-
         try {
             // 1. Guardamos el Cliente (nombre, apellidos, email, telefono)
+            //    Gracias al campo @Transient, el 'cliente' también trae la contraseña.
             Cliente clienteGuardado = clienteService.addCliente(cliente);
 
-            // 2. Buscamos el Rol "USER" (ID 2, como pediste)
+            // 2. Buscamos el Rol "USER" (ID 2)
             Rol rolUsuario = rolRepository.findById(2L)
                     .orElseThrow(() -> new RuntimeException("Error: Rol ID 2 (USER) no encontrado."));
 
@@ -88,11 +69,10 @@ public class RegistroController {
 
         } catch (DuplicateEmailException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            redirectAttributes.addFlashAttribute("cliente", cliente); // Devuelve el cliente al formulario
+            redirectAttributes.addFlashAttribute("cliente", cliente);
             return "redirect:/registro";
         } catch (Exception e) {
-            // Capturamos cualquier otro error (ej. Rol no encontrado)
-            redirectAttributes.addFlashAttribute("errorMessage", "Error inesperado durante el registro.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Error inesperado: " + e.getMessage());
             redirectAttributes.addFlashAttribute("cliente", cliente);
             return "redirect:/registro";
         }
