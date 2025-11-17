@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +19,6 @@
 
     <!-- Custom Style -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<!--    <link rel="stylesheet" href="style.css">-->
     <style>
         /* ===================================================
    APP-STYLE.CSS — Estilos unificados para toda la app
@@ -349,14 +349,44 @@ body {
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
-                    <li class="nav-item"><a class="nav-link active" th:href="@{/alquileres}">Alquileres</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
-                    <li class="nav-item"><a class="btn btn-accent ms-lg-3" th:href="@{/registro}">Registro</a></li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Inicio</a>
+                    </li>
+
+                    <!-- Solo ADMIN -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/vehiculos}">Vehículos</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+                    </li>
+
+                    <!-- ADMIN o USER -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasAnyRole(''ADMIN'',''USER'')')}">
+                        <a class="nav-link" th:href="@{/alquileres}">Alquileres</a>
+                    </li>
+
+                    <!-- Si NO está autenticado -->
+                    <li class="nav-item" th:if="${#authorization.expr('!isAuthenticated()')}">
+                        <a class="btn btn-accent ms-lg-3" th:href="@{/login}">Login</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('!isAuthenticated()')}">
+                        <a class="nav-link" th:href="@{/registro}">Registro</a>
+                    </li>
+
+                    <!-- Si SÍ está autenticado -->
+                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+                        <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+                        <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -432,13 +462,13 @@ body {
             <form th:action="@{/alquileres/nuevo}" th:object="${alquiler}" method="post" id="alquilerForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="nuevoAlquilerModalLabel">
-                        <i class="fa-solid fa-rectangle-list"></i> Registrar nuevo alquiler
+                        <i class="fa-solid fa-rectangle-list"></i> Registrar nuevo alquiler
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
 
                 <div class="modal-body">
-                    <!-- Mensaje de error dentro del modal -->
+                    <!-- Mensaje de error -->
                     <div th:if="${errorMessageNuevo}" class="mb-3">
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <span th:text="${errorMessageNuevo}"></span>
@@ -446,7 +476,8 @@ body {
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <!-- Cliente -->
+                    <div th:if="${#authorization.expr('hasRole(''ADMIN'')')}" class="mb-3">
                         <label for="clienteSelect" class="form-label">Cliente</label>
                         <select class="form-select" th:field="*{cliente.id}" id="clienteSelect" required>
                             <option value="" th:text="'Seleccionar cliente...'" th:selected="*{cliente == null}"></option>
@@ -457,36 +488,31 @@ body {
                         </select>
                     </div>
 
+                    <input type="hidden" th:if="${#authorization.expr('hasRole(''USER'')')}" th:field="*{cliente.id}" th:value="${clienteAutenticado.id}" />
+
+                    <!-- Vehículo -->
                     <div class="mb-3">
                         <label for="vehiculoSelect" class="form-label">Vehículo</label>
                         <select class="form-select" th:field="*{vehiculo.id}" id="vehiculoSelect" required>
                             <option value="" th:text="'Seleccionar vehículo...'" th:selected="*{vehiculo == null}"></option>
-                            <option th:each="vehiculo : ${vehiculos}"
-                                    th:value="${vehiculo.id}"
-                                    th:text="${vehiculo.marca} + ' ' + ${vehiculo.modelo}">
-                            </option>
+                            <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.id}" th:text="${vehiculo.marca} + ' ' + ${vehiculo.modelo}"></option>
                         </select>
                     </div>
 
+                    <!-- Fechas -->
                     <div class="mb-3">
                         <label for="fechaInicio" class="form-label">Fecha inicio</label>
                         <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicio" required />
                     </div>
-
                     <div class="mb-3">
                         <label for="fechaFin" class="form-label">Fecha fin</label>
                         <input type="date" th:field="*{fechaFin}" class="form-control" id="fechaFin" required />
                     </div>
-
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i> Cancelar
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-floppy-disk"></i> Guardar
-                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 </div>
             </form>
         </div>
@@ -499,20 +525,21 @@ body {
         <div class="modal-content">
             <form th:action="@{/alquileres/editar}" th:object="${alquiler}" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fa-solid fa-pen"></i> Editar Alquiler</h5>
+                    <h5 class="modal-title"><i class="fa-solid fa-pen"></i> Editar Alquiler</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body">
-                    <!-- Mensaje de error si existe -->
+                    <!-- Mensaje de error -->
                     <div th:if="${errorMessageEdit}" class="alert alert-danger alert-dismissible fade show" role="alert">
                         <span th:text="${errorMessageEdit}"></span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
 
-                    <!-- ID oculto -->
                     <input type="hidden" th:field="*{id}" />
 
-                    <div class="mb-3">
+                    <!-- Cliente -->
+                    <div th:if="${#authorization.expr('hasRole(''ADMIN'')')}" class="mb-3">
                         <label for="clienteEditSelect" class="form-label">Cliente</label>
                         <select name="cliente.id" class="form-select" id="clienteEditSelect" required>
                             <option value="" disabled>Seleccionar cliente...</option>
@@ -522,6 +549,9 @@ body {
                         </select>
                     </div>
 
+                    <input type="hidden" th:if="${#authorization.expr('hasRole(''USER'')')}" th:field="*{cliente.id}" th:value="${clienteAutenticado.id}" />
+
+                    <!-- Vehículo -->
                     <div class="mb-3">
                         <label for="vehiculoEditSelect" class="form-label">Vehículo</label>
                         <select name="vehiculo.id" class="form-select" id="vehiculoEditSelect" required>
@@ -532,29 +562,26 @@ body {
                         </select>
                     </div>
 
+                    <!-- Fechas -->
                     <div class="mb-3">
                         <label for="fechaInicioEdit" class="form-label">Fecha inicio</label>
                         <input type="date" th:field="*{fechaInicio}" class="form-control" id="fechaInicioEdit" required />
                     </div>
-
                     <div class="mb-3">
                         <label for="fechaFinEdit" class="form-label">Fecha fin</label>
                         <input type="date" th:field="*{fechaFin}" class="form-control" id="fechaFinEdit" required />
                     </div>
-
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i> Cancelar
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-floppy-disk"></i> Guardar
-                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 <!-- Footer -->
 <footer class="footer text-center py-4">

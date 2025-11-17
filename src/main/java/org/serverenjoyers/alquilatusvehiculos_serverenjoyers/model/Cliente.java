@@ -23,6 +23,10 @@ public class Cliente {
     @Column(length = 20)
     private String telefono;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_usuario")  //relación con la tabla "usuarios"
+    private Usuario usuario;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +65,13 @@ public class Cliente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

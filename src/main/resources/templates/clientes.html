@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,9 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Custom Style -->
-<!--  <link rel="stylesheet" href="clientes.css">-->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<!--  <link rel="stylesheet" href="style.css">-->
   <style>
     /* ===================================================
    APP-STYLE.CSS — Estilos unificados para toda la app
@@ -349,14 +348,44 @@ body {
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/alquileres}">Alquileres</a></li>
-          <li class="nav-item"><a class="nav-link active" th:href="@{/clientes}">Clientes</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
-          <li class="nav-item"><a class="btn btn-accent ms-lg-3" th:href="@{/registro}">Registro</a></li>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/}">Inicio</a>
+          </li>
+
+          <!-- Solo ADMIN -->
+          <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+            <a class="nav-link" th:href="@{/vehiculos}">Vehículos</a>
+          </li>
+
+          <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+            <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+          </li>
+
+          <!-- ADMIN o USER -->
+          <li class="nav-item" th:if="${#authorization.expr('hasAnyRole(''ADMIN'',''USER'')')}">
+            <a class="nav-link" th:href="@{/alquileres}">Alquileres</a>
+          </li>
+
+          <!-- Si NO está autenticado -->
+          <li class="nav-item" th:if="${#authorization.expr('!isAuthenticated()')}">
+            <a class="btn btn-accent ms-lg-3" th:href="@{/login}">Login</a>
+          </li>
+
+          <li class="nav-item" th:if="${#authorization.expr('!isAuthenticated()')}">
+            <a class="nav-link" th:href="@{/registro}">Registro</a>
+          </li>
+
+          <!-- Si SÍ está autenticado -->
+          <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+            <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+          </li>
+
+          <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+            <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
+          </li>
         </ul>
       </div>
     </div>

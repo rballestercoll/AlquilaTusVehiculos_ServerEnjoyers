@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,11 +11,320 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
     >
+    <!-- Custom Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===================================================
+       APP-STYLE.CSS — Estilos unificados para toda la app
+       Paleta: #10214B / #D7BD88 / #D0C3BA / #EBE7E1
+       =================================================== */
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css">
+    /* -----------------------
+       IMPORT (fuente Poppins)
+       ----------------------- */
+    /* Añade esta línea en <head> si aún no importas la fuente:
+       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    */
+
+    /* ================================
+       VARIABLES DE PALETA
+       ================================ */
+    :root{
+      --color-primary: #10214B;   /* azul oscuro */
+      --color-accent:  #D7BD88;   /* dorado suave */
+      --color-muted:   #D0C3BA;   /* arena/gris cálido */
+      --color-light:   #EBE7E1;   /* blanco hueso */
+      --color-text:    #10214B;   /* texto principal */
+      --shadow:        0 6px 18px rgba(16,33,75,0.12);
+    }
+
+    /* ================================
+       GLOBAL / RESET
+       ================================ */
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--color-light);
+      color: var(--color-text);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Utilidades generales */
+    .btn { border-radius: 30px; font-weight: 500; transition: all .28s ease; }
+    .shadow-sm { box-shadow: 0 2px 6px rgba(16,33,75,0.1) !important; }
+
+    /* ================================
+       NAVBAR — UNIFICADO
+       ================================ */
+    .navbar {
+      background-color: var(--color-primary) !important; /* fuerza paleta aunque haya style inline */
+      padding-top: .6rem;
+      padding-bottom: .6rem;
+      box-shadow: 0 2px 6px rgba(16,33,75,0.08);
+    }
+
+    /* Brand (logo + texto) */
+    .navbar-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+    }
+    .navbar-brand img {
+      height: 72px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      transition: height .12s ease;
+    }
+    .navbar-brand span {
+      color: var(--color-accent);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    /* Nav links */
+    .navbar .nav-link {
+      color: var(--color-light) !important;
+      font-size: .98rem;
+      padding: .45rem .65rem;
+      transition: color .18s ease;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+      color: var(--color-accent) !important;
+      background: transparent !important;
+      text-decoration: none;
+    }
+
+    /* Toggler */
+    .navbar-toggler { border-color: rgba(235,231,225,0.08); }
+    .navbar-toggler-icon { filter: invert(1) brightness(0.9); }
+
+    /* Registro (botón especial en header) */
+    .btn-accent,
+    .btn.btn-accent {
+      background: var(--color-accent) !important;
+      color: var(--color-primary) !important;
+      border: 0;
+      padding: .45rem .9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .btn-accent:hover,
+    .btn-accent:focus {
+      background: var(--color-muted) !important;
+      color: var(--color-primary) !important;
+      transform: translateY(-1px);
+    }
+
+    /* ================================
+       HERO
+       ================================ */
+    .hero-section {
+      background: linear-gradient(rgba(16,33,75,0.8), rgba(16,33,75,0.8)), url('/assets/hero-bg.jpg') center/cover no-repeat;
+      color: var(--color-light);
+      min-height: 80vh;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+    }
+    .hero-section .btn-register {
+      background-color: var(--color-accent);
+      color: var(--color-primary);
+      border: none;
+      transition: background-color .18s ease;
+    }
+    .hero-section .btn-register:hover { background-color: var(--color-muted); color: var(--color-primary); }
+
+    /* ================================
+       FEATURES / CARDS
+       ================================ */
+    .features, .features-section {
+      background-color: var(--color-light);
+      color: var(--color-text);
+    }
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--color-muted);
+      transition: transform .24s ease, box-shadow .24s ease;
+      border-radius: 10px;
+    }
+    .feature-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(16,33,75,0.08); }
+    .feature-icon { color: var(--color-accent); font-size: 2.5rem; }
+
+    /* ================================
+       CTA
+       ================================ */
+    .cta-section {
+      background-color: var(--color-primary);
+      color: var(--color-light);
+      padding: 3rem 0;
+    }
+    .cta-section .btn-accent { background-color: var(--color-accent); color: var(--color-primary); }
+    .cta-section .btn-accent:hover { background-color: var(--color-muted); }
+
+    /* ================================
+       FOOTER
+       ================================ */
+    .footer {
+      background-color: var(--color-primary);
+      color: var(--color-light);
+      padding: 1.25rem 0;
+    }
+    .footer p { margin: 0; }
+    .footer .footer-brand { color: var(--color-accent); font-weight: 600; }
+    .footer .footer-subtitle { color: var(--color-muted); }
+
+    /* ================================
+       TABLAS (listados: vehículos, clientes, alquileres...)
+       ================================ */
+    .table-responsive { background: transparent; }
+    .table { border-collapse: separate; border-spacing: 0; }
+
+    /* Cabecera */
+    .table thead.table-dark, .table thead th.table-header {
+      background-color: var(--color-primary) !important;
+      color: var(--color-light);
+    }
+    .table thead th {
+      border-bottom: 2px solid rgba(0,0,0,0.06);
+      vertical-align: middle;
+      padding: .9rem .75rem;
+    }
+
+    /* Filas y celdas */
+    .table tbody tr { background: #fff; }
+    .table tbody tr:nth-child(even) { background: rgba(208,195,186,0.12); }
+    .table td, .table th { vertical-align: middle; padding: .9rem .75rem; }
+
+    /* Acciones (iconos) */
+    .table .fa-solid { margin-right: .35rem; font-size: .92rem; }
+
+    /* Botones pequeños dentro de tablas */
+    .table .btn-sm { padding: .28rem .5rem; font-size: .85rem; }
+
+    /* ================================
+       ALERTAS
+       ================================ */
+    .alert-success {
+      background-color: rgba(215,189,136,0.14);
+      color: var(--color-text);
+      border: 1px solid rgba(215,189,136,0.28);
+    }
+    .alert-danger {
+      background-color: rgba(201,74,69,0.08);
+      color: #7a1e1b;
+      border: 1px solid rgba(201,74,69,0.14);
+    }
+
+    /* ================================
+       MODALES (nuevo / editar y otros)
+       ================================ */
+    .modal-content {
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: none;
+      overflow: hidden;
+    }
+
+    /* Header del modal */
+    .modal-header {
+      background: linear-gradient(90deg, rgba(16,33,75,0.98), rgba(16,33,75,0.9));
+      color: var(--color-light);
+      border-bottom: none;
+      padding: 1.05rem 1rem;
+    }
+    .modal-header .modal-title { font-weight: 700; display: flex; align-items: center; gap: .6rem; }
+    .modal-header .fa-solid { color: var(--color-accent); }
+
+    /* Body del modal */
+    .modal-body {
+      background: var(--color-light);
+      color: var(--color-text);
+      padding: 1.25rem;
+    }
+
+    /* Inputs dentro de modal */
+    .modal .form-control {
+      border: 1px solid rgba(16,33,75,0.12);
+      border-radius: 8px;
+      padding: .6rem .75rem;
+      background: #fff;
+      transition: box-shadow .12s ease, border-color .12s ease;
+    }
+    .modal .form-control:focus {
+      box-shadow: 0 6px 16px rgba(16,33,75,0.06);
+      border-color: var(--color-primary);
+      outline: none;
+    }
+    .form-text { color: rgba(16,33,75,0.6); }
+
+    /* Footer del modal */
+    .modal-footer {
+      background: linear-gradient(180deg, rgba(235,231,225,0.0), rgba(235,231,225,0.02));
+      border-top: none;
+      padding: 1rem;
+    }
+    .modal-footer .btn-secondary {
+      background: transparent; border: 1px solid rgba(16,33,75,0.12);
+      color: var(--color-text); border-radius: 8px;
+    }
+    .modal-footer .btn-primary {
+      background: var(--color-primary) !important; color: var(--color-light) !important;
+      border-radius: 8px; padding: .5rem .95rem; font-weight: 600;
+    }
+
+    /* ================================
+       BOTONES (estilo global y mapeo de bootstrap)
+       ================================ */
+    /* Botón destacado/acento (reutilizable) */
+    .btn-accent { /* ya definido más arriba para header, repetimos con la misma intención*/
+      background: var(--color-accent) !important;
+      color: var(--color-primary) !important;
+      border: 0; padding: .45rem .9rem; border-radius: 999px; font-weight: 600;
+    }
+
+    /* Mapeo de botones Bootstrap usados frecuentemente */
+    .btn-success { background-color: var(--color-accent) !important; color: var(--color-primary) !important; border: none; }
+    .btn-primary { background-color: var(--color-primary) !important; color: var(--color-light) !important; border: none; }
+    .btn-warning { background-color: #F2C46D !important; color: var(--color-primary) !important; border: none; }
+    .btn-danger { background-color: #C94A45 !important; color: #fff !important; border: none; }
+
+    /* Botones pequeños */
+    .btn-sm { padding: .32rem .6rem; font-size: .88rem; }
+
+    /* ================================
+       FORMULARIOS & UTILIDADES
+       ================================ */
+    .form-label { font-weight: 600; color: rgba(16,33,75,0.9); }
+    .input-group .form-control { border-radius: 6px; }
+    .invalid-feedback { color: #A1342A; }
+
+    /* Text helpers */
+    .text-muted-strong { color: rgba(16,33,75,0.6) !important; }
+    .small-note { font-size: .9rem; color: rgba(16,33,75,0.55); }
+
+    /* ================================
+       RESPONSIVE
+       ================================ */
+    @media (max-width: 767.98px) {
+      .navbar-brand img { height: 56px; }
+      .navbar-brand span { font-size: 1.02rem; }
+      .navbar .nav-link { font-size: .95rem; padding: .45rem .5rem; }
+      .btn-accent { padding: .35rem .7rem; font-size: .92rem; }
+    }
+    @media (max-width: 575.98px) {
+      .modal-dialog { max-width: 92%; margin: 1.25rem auto; }
+      .table td, .table th { padding: .6rem .45rem; font-size: .92rem; }
+    }
+    </style>
 </head>
 <body>
 
@@ -22,7 +332,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">
-                <img src="/assets/logo.png" alt="Logo de ServerEnjoyers">
+                <img src="/assets/logo4.png" alt="Logo de ServerEnjoyers">
                 <span>ServerEnjoyers</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -32,18 +342,40 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/clientes}">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/vehiculos}">Vehículos</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/alquileres}">Alquileres</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-accent active" th:href="@{/registro}">Registro</a></li>
-                    <li class="nav-item" th:if="${session.clienteAutenticadoId == null}">
-                        <a class="nav-link" th:href="@{/login}">Login</a>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Inicio</a>
                     </li>
-                    <li class="nav-item" th:if="${session.clienteAutenticadoId != null}">
+
+                    <!-- Solo ADMIN -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/vehiculos}">Vehículos</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+                    </li>
+
+                    <!-- ADMIN o USER -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasAnyRole(''ADMIN'',''USER'')')}">
+                        <a class="nav-link" th:href="@{/alquileres}">Alquileres</a>
+                    </li>
+
+                    <!-- Si NO está autenticado -->
+                    <li class="nav-item" th:if="${#authorization.expr('!isAuthenticated()')}">
+                        <a class="btn btn-accent ms-lg-3" th:href="@{/login}">Login</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('!isAuthenticated()')}">
+                        <a class="nav-link" th:href="@{/registro}">Registro</a>
+                    </li>
+
+                    <!-- Si SÍ está autenticado -->
+                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
                         <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
                     </li>
-                    <li class="nav-item" th:if="${session.clienteAutenticadoId != null}">
+
+                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
                         <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
                     </li>
                 </ul>
@@ -72,7 +404,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
 
-                        <form th:action="@{/registro}" th:object="${cliente}" method="post" novalidate>
+                        <form th:action="@{/registro}" th:object="${registerForm}" method="post" novalidate>
                             <div class="mb-3">
                                 <label class="form-label" for="nombre">Nombre</label>
                                 <input type="text" th:field="*{nombre}" id="nombre" class="form-control" placeholder="Introduce tu nombre" required>
@@ -84,6 +416,10 @@
                             <div class="mb-3">
                                 <label class="form-label" for="email">Email</label>
                                 <input type="email" th:field="*{email}" id="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Contraseña</label>
+                                <input type="password" th:field="*{password}" id="password" class="form-control" placeholder="Introduce tu contraseña" required>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" for="telefono">Teléfono</label>

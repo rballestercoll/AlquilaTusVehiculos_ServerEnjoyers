@@ -62,4 +62,8 @@ public class ClienteService {
         }
         return cliente;
     }
+
+    public Optional<Cliente> getClientePorEmail(String email){
+        return clienteRepository.findByEmail(email);
+    }
 }

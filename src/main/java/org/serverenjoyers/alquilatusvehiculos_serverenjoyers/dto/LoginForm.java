@@ -2,22 +2,22 @@ package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto;
 
 public class LoginForm {
 
-    private String email;
-    private String telefono;
+    private String usuario;
+    private String password;
 
-    public String getEmail() {
-        return email;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPassword() {
+        return password;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
