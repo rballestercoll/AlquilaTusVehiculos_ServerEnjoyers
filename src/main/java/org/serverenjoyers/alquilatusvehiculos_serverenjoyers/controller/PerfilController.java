@@ -36,7 +36,7 @@ public class PerfilController {
         Usuario usuario = usuarioService.getUsuarioPorUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Buscamos el Cliente asociado (puede que haya admins sin cliente)
+        // Buscamos el Cliente asociado
         Cliente cliente = clienteService.getClientePorEmail(usuario.getUsername())
                 .orElse(null);
 

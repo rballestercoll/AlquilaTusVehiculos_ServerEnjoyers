@@ -349,11 +349,11 @@
 
                     <!-- Solo ADMIN -->
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
-                        <a class="nav-link" th:href="@{/vehiculos}">Vehículos</a>
+                        <a class="nav-link" th:href="@{/admin/vehiculos}">Vehículos</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
-                        <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+                        <a class="nav-link" th:href="@{/admin/clientes}">Clientes</a>
                     </li>
 
                     <!-- ADMIN o USER -->
@@ -370,9 +370,13 @@
                         <a class="nav-link" th:href="@{/registro}">Registro</a>
                     </li>
 
-                    <!-- Si SÍ está autenticado -->
-                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+                    <!-- Cliente/perfil y Administrador/admin -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''USER'')')}">
                         <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/admin}">Panel administrador</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
@@ -393,32 +397,8 @@
                     <div class="card-body p-4">
                         <h1 class="h3 mb-4 text-center">Iniciar sesión</h1>
                         <p class="text-muted-strong text-center mb-4">
-                            Accede con tu email y teléfono registrado.
+                            Accede con tu email y contraseña.
                         </p>
-
-<!--                        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mb-3" role="alert">-->
-<!--                            <span th:text="${successMessage}"></span>-->
-<!--                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--                        </div>-->
-<!--                        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">-->
-<!--                            <span th:text="${errorMessage}"></span>-->
-<!--                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--                        </div>-->
-
-<!--                        <form th:action="@{/login}" method="post">-->
-<!--                            <div class="mb-3">-->
-<!--                                <label for="username" class="form-label">Email</label>-->
-<!--                                <input type="email" class="form-control" id="username" name="username" required>-->
-<!--                            </div>-->
-<!--                            <div class="mb-3">-->
-<!--                                <label for="password" class="form-label">Contraseña</label>-->
-<!--                                <input type="password" class="form-control" id="password" name="password" required>-->
-<!--                            </div>-->
-<!--                            <div class="d-grid">-->
-<!--                                <button type="submit" class="btn btn-primary">Acceder</button>-->
-<!--                            </div>-->
-<!--                        </form>-->
-
                         <div th:if="${param.logout}"
                              class="alert alert-success alert-dismissible fade show mb-3" role="alert">
                             Sesión cerrada correctamente.

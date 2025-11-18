@@ -34,35 +34,6 @@ public class LoginController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String procesarLogin(@RequestParam String username, @RequestParam String password, HttpSession session, Model model){
-//        Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(username);
-//
-//        // usuarioOptional no existe
-//        if (usuarioOptional.isEmpty()) {
-//            model.addAttribute("errorMessage", "Usuario o contraseña incorrectos.");
-//            return "login";
-//        }
-//
-//        // contraseña incorrecta
-//        if (!passwordEncoder.matches(password, usuarioOptional.get().getPassword())) {
-//            model.addAttribute("errorMessage", "Usuario o contraseña incorrectos.");
-//            return "login";
-//        }
-//
-//        Usuario usuario = usuarioOptional.get();
-//
-//        // Guardamos usuario en sesión
-//        session.setAttribute("usuarioAutenticadoId", usuario.getId());
-//
-//        // Guardamos cliente en sessión
-//        Optional<Cliente> cliente = clienteRepository.findByEmail(usuario.getUsername());
-//        cliente.ifPresent(value -> session.setAttribute("clienteAutenticadoId", value.getId())
-//        );
-//
-//        return "redirect:/";
-//    }
-
     // LOGOUT
     @GetMapping("/logout")
     public String logout(HttpSession session){

@@ -24,10 +24,10 @@ public class ClienteController {
         return clienteService.getCliente(id);
     }
 
-    @PostMapping
-    public Cliente addCliente(@RequestBody Cliente cliente){
-        return clienteService.addCliente(cliente);
-    }
+//    @PostMapping
+//    public Cliente addCliente(@RequestBody Cliente cliente){
+//        return clienteService.addCliente(cliente);
+//    }
 
     @PutMapping("/{id}")
     public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente){

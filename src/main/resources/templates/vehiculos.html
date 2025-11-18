@@ -357,11 +357,11 @@ body {
 
                     <!-- Solo ADMIN -->
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
-                        <a class="nav-link" th:href="@{/vehiculos}">Vehículos</a>
+                        <a class="nav-link" th:href="@{/admin/vehiculos}">Vehículos</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
-                        <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+                        <a class="nav-link" th:href="@{/admin/clientes}">Clientes</a>
                     </li>
 
                     <!-- ADMIN o USER -->
@@ -378,9 +378,13 @@ body {
                         <a class="nav-link" th:href="@{/registro}">Registro</a>
                     </li>
 
-                    <!-- Si SÍ está autenticado -->
-                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+                    <!-- Cliente/perfil y Administrador/admin -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''USER'')')}">
                         <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/admin}">Panel administrador</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">

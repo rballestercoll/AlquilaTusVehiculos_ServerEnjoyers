@@ -350,11 +350,11 @@ body {
 
                     <!-- Solo ADMIN -->
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
-                        <a class="nav-link" th:href="@{/vehiculos}">Vehículos</a>
+                        <a class="nav-link" th:href="@{/admin/vehiculos}">Vehículos</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
-                        <a class="nav-link" th:href="@{/clientes}">Clientes</a>
+                        <a class="nav-link" th:href="@{/admin/clientes}">Clientes</a>
                     </li>
 
                     <!-- ADMIN o USER -->
@@ -371,9 +371,13 @@ body {
                         <a class="nav-link" th:href="@{/registro}">Registro</a>
                     </li>
 
-                    <!-- Si SÍ está autenticado -->
-                    <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
+                    <!-- Cliente/perfil y Administrador/admin -->
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''USER'')')}">
                         <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">
+                        <a class="nav-link" th:href="@{/admin}">Panel administrador</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('isAuthenticated()')}">
@@ -437,8 +441,8 @@ body {
                                 <tr th:each="alquiler : ${alquileres}">
                                     <td th:text="${alquiler.vehiculo != null ? alquiler.vehiculo.marca + ' ' + alquiler.vehiculo.modelo : 'N/A'}"></td>
                                     <td th:text="${alquiler.vehiculo != null ? alquiler.vehiculo.matricula : 'N/A'}"></td>
-                                    <td th:text="${alquiler.fechaInicio != null ? #dates.format(alquiler.fechaInicio, 'dd/MM/yyyy') : 'N/A'}"></td>
-                                    <td th:text="${alquiler.fechaFin != null ? #dates.format(alquiler.fechaFin, 'dd/MM/yyyy') : 'N/A'}"></td>
+                                    <td th:text="${alquiler.fechaInicio}"></td>
+                                    <td th:text="${alquiler.fechaFin}"></td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(alquileres)}">
                                     <td colspan="4" class="py-4 text-muted-strong">Todavía no tienes alquileres registrados.</td>

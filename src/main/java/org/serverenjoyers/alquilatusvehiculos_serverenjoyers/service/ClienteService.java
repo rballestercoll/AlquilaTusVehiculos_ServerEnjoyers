@@ -1,9 +1,14 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service;
 
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto.RegisterForm;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.exception.DuplicateEmailException;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Cliente;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Usuario;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.enums.Rol;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.ClienteRepository;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +19,12 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public List<Cliente> getClientes(){
         return clienteRepository.findAll();
@@ -27,11 +38,22 @@ public class ClienteService {
         throw new RuntimeException("Cliente con ID " + id + " no encontrado");
     }
 
-    public Cliente addCliente(Cliente cliente){
-        if (clienteRepository.existsByEmail(cliente.getEmail())){
+    public void addCliente(RegisterForm registerForm){
+        if (usuarioRepository.existsByUsername(registerForm.getEmail())){
             throw new DuplicateEmailException("El email ya está registrado");
         }
-        return clienteRepository.save(cliente);
+        Usuario usuario = new Usuario();
+        usuario.setUsername(registerForm.getEmail());
+        usuario.setPassword(passwordEncoder.encode(registerForm.getPassword()));
+        usuario.setRol(Rol.USER);
+        usuarioRepository.save(usuario);
+        Cliente cliente = new Cliente();
+        cliente.setNombre(registerForm.getNombre());
+        cliente.setApellidos(registerForm.getApellidos());
+        cliente.setEmail(registerForm.getEmail());
+        cliente.setTelefono(registerForm.getTelefono());
+        cliente.setUsuario(usuario);
+        clienteRepository.save(cliente);
     }
 
     public Cliente updateCliente(Cliente cliente){
@@ -44,23 +66,6 @@ public class ClienteService {
 
     public void deleteCliente(Long id){
         clienteRepository.deleteById(id);
-    }
-
-    public Cliente authenticateCliente(String email, String telefono) {
-        if (email == null || email.isBlank()) {
-            throw new RuntimeException("El email es obligatorio.");
-        }
-
-        Cliente cliente = clienteRepository.findByEmail(email.trim())
-                .orElseThrow(() -> new RuntimeException("No existe un cliente registrado con ese email."));
-
-        String telefonoRegistrado = cliente.getTelefono();
-        if (telefonoRegistrado != null && !telefonoRegistrado.isBlank()) {
-            if (telefono == null || telefono.isBlank() || !telefonoRegistrado.equals(telefono.trim())) {
-                throw new RuntimeException("El teléfono introducido no coincide con el registrado.");
-            }
-        }
-        return cliente;
     }
 
     public Optional<Cliente> getClientePorEmail(String email){

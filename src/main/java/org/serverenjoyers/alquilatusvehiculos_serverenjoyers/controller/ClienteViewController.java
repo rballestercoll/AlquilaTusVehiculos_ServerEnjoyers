@@ -1,5 +1,6 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.controller;
 
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto.RegisterForm;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.exception.DuplicateEmailException;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Cliente;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service.ClienteService;
@@ -15,7 +16,7 @@ public class ClienteViewController {
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/clientes")
+    @GetMapping("/admin/clientes")
     public String listarClientes(Model model){
         model.addAttribute("clientes", clienteService.getClientes());
         if (!model.containsAttribute("cliente")){
@@ -25,21 +26,21 @@ public class ClienteViewController {
     }
 
     @PostMapping("/clientes/nuevo")
-    public String nuevoCliente(@ModelAttribute Cliente cliente, Model model, RedirectAttributes redirectAttributes) {
+    public String nuevoCliente(@ModelAttribute RegisterForm registerForm, Model model, RedirectAttributes redirectAttributes) {
         try {
-            clienteService.addCliente(cliente);
+            clienteService.addCliente(registerForm);
             redirectAttributes.addFlashAttribute("successMessage", "Cliente se ha registado correctamente!");
             return "redirect:/clientes";
         } catch (DuplicateEmailException e){
             model.addAttribute("errorMessageNuevo", e.getMessage());
             model.addAttribute("clientes", clienteService.getClientes());
-            model.addAttribute("cliente", cliente);
+            model.addAttribute("cliente", registerForm);
             return "clientes";
         }
     }
 
     // Utilizaremos POST ya que HTML solo soporta GET y POST
-    @PostMapping("/clientes/eliminar/{id}")
+    @PostMapping("/admin/clientes/eliminar/{id}")
     public String eliminarCliente(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         try {
             clienteService.deleteCliente(id);
@@ -51,7 +52,7 @@ public class ClienteViewController {
     }
 
     // Para hacer UPDATE (PUT) obtenemos los datos con un GET y los actualizamos con un POST
-    @GetMapping("/clientes/editar/{id}")
+    @GetMapping("/admin/clientes/editar/{id}")
     public String mostrarEditarCliente(@PathVariable Long id, Model model) {
         Cliente cliente = clienteService.getCliente(id);
         model.addAttribute("cliente", cliente);
@@ -60,7 +61,7 @@ public class ClienteViewController {
         return "clientes";
     }
 
-    @PostMapping("/clientes/editar")
+    @PostMapping("/admin/clientes/editar")
     public String editarCliente(@ModelAttribute Cliente cliente, Model model, RedirectAttributes redirectAttributes) {
         try {
             clienteService.updateCliente(cliente);

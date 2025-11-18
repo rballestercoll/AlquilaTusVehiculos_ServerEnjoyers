@@ -2,7 +2,9 @@ package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service;
 
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Alquiler;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Cliente;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Usuario;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Vehiculo;
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.enums.Rol;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.AlquilerRepository;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.ClienteRepository;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.repository.VehiculoRepository;
@@ -25,6 +27,12 @@ public class AlquilerService {
 
     @Autowired
     private VehiculoRepository vehiculoRepository;
+
+    @Autowired
+    private ClienteService clienteService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     public List<Alquiler> getAlquileres(){
         return alquilerRepository.findAll();
@@ -77,4 +85,20 @@ public class AlquilerService {
     public List<Alquiler> getAlquileresPorCliente(Long clienteId){
         return alquilerRepository.findByClienteId(clienteId);
     }
+
+    public List<Alquiler> getAlquileresVisiblesPara(String username) {
+
+        Usuario usuario = usuarioService.getUsuarioPorUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (usuario.getRol() == Rol.ADMIN) {
+            return alquilerRepository.findAll();
+        }
+
+        Cliente cliente = clienteService.getClientePorEmail(username)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        return alquilerRepository.findByClienteId(cliente.getId());
+    }
+
 }

@@ -18,7 +18,7 @@ public class VehiculoViewController {
     @Autowired
     private VehiculoService vehiculoService;
 
-    @GetMapping("/vehiculos")
+    @GetMapping("/admin/vehiculos")
     public String listarVehiculos(Model model){
         model.addAttribute("vehiculos", vehiculoService.getVehiculos());
         if (!model.containsAttribute("vehiculo")){
@@ -27,7 +27,7 @@ public class VehiculoViewController {
         return "vehiculos";
     }
 
-    @PostMapping("/vehiculos/nuevo")
+    @PostMapping("/admin/vehiculos/nuevo")
     public String nuevoVehiculo(@ModelAttribute Vehiculo vehiculo, Model model, RedirectAttributes redirectAttributes){
         try {
             vehiculoService.addVehiculo(vehiculo);
@@ -41,7 +41,7 @@ public class VehiculoViewController {
         }
     }
 
-    @PostMapping("/vehiculos/eliminar/{id}")
+    @PostMapping("/admin/vehiculos/eliminar/{id}")
     public String eliminarVehiculo(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         try {
             vehiculoService.deleteVehiculo(id);
@@ -52,7 +52,7 @@ public class VehiculoViewController {
         return "redirect:/vehiculos";
     }
 
-    @GetMapping("/vehiculos/editar/{id}")
+    @GetMapping("/admin/vehiculos/editar/{id}")
     public String mostrarEditarVehiculo(@PathVariable Long id, Model model){
         Vehiculo vehiculo = vehiculoService.getVehiculo(id);
         model.addAttribute("vehiculo", vehiculo);
@@ -61,7 +61,7 @@ public class VehiculoViewController {
         return "vehiculos";
     }
 
-    @PostMapping("/vehiculos/editar")
+    @PostMapping("/admin/vehiculos/editar")
     public String editarVehiculo(@ModelAttribute Vehiculo vehiculo, Model model, RedirectAttributes redirectAttributes){
         try {
             vehiculoService.updateVehiculo(vehiculo);

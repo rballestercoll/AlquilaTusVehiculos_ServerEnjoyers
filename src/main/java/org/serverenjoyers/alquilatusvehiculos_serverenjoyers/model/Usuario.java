@@ -26,6 +26,10 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Cliente cliente;
 
+    //relación entre usuario y administrador
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private Administrador administrador;
+
     public Long getId() {
         return id;
     }
@@ -64,5 +68,13 @@ public class Usuario {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
     }
 }
