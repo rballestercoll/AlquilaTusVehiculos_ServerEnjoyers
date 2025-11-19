@@ -373,7 +373,7 @@ body {
 
                     <!-- Cliente/perfil y Administrador/admin -->
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''USER'')')}">
-                        <a class="nav-link" th:href="@{/perfil}">Mi perfil</a>
+                        <a class="nav-link" th:href="@{/user/perfil}">Mi perfil</a>
                     </li>
 
                     <li class="nav-item" th:if="${#authorization.expr('hasRole(''ADMIN'')')}">

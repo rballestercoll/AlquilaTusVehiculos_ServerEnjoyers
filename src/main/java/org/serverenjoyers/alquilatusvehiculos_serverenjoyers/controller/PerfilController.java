@@ -24,7 +24,7 @@ public class PerfilController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/perfil")
+    @GetMapping("/user/perfil")
     public String verPerfil(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         if (userDetails == null) {
