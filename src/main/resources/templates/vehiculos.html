@@ -437,8 +437,8 @@ body {
                 <td th:text="${vehiculo.precioDia} + '€'"></td>
                 <td>
                     <!-- Enlaces para editar/eliminar -->
-                    <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
-                    <form th:action="@{/vehiculos/eliminar/{id}(id=${vehiculo.id})}" method="post" th:onsubmit="return confirm('¿Eliminar vehículo?');" style="display:inline;">
+                    <a th:href="@{/admin/vehiculos/editar/{id}(id=${vehiculo.id})}" class="btn btn-sm btn-warning me-1"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                    <form th:action="@{/admin/vehiculos/eliminar/{id}(id=${vehiculo.id})}" method="post" th:onsubmit="return confirm('¿Eliminar vehículo?');" style="display:inline;">
                         <!-- Si usas Spring Security, añade el token CSRF automáticamente -->
                         <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
                     </form>
@@ -459,7 +459,7 @@ body {
 <div class="modal fade" id="nuevoVehiculoModal" tabindex="-1" aria-labelledby="nuevoVehiculoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/vehiculos/nuevo}" th:object="${vehiculo}" method="post" id="vehiculoForm">
+            <form th:action="@{/admin/vehiculos/nuevo}" th:object="${vehiculo}" method="post" id="vehiculoForm">
                 <div class="modal-header">
                     <h5 class="modal-title" id="nuevoVehiculoModalLabel">
                         <i class="fa-solid fa-car"></i> Registrar nuevo vehículo
@@ -537,7 +537,7 @@ body {
 <div class="modal fade" id="editarVehiculoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/vehiculos/editar}" th:object="${vehiculo}" method="post">
+            <form th:action="@{/admin/vehiculos/editar}" th:object="${vehiculo}" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fa-solid fa-pen"></i> Editar Vehículo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

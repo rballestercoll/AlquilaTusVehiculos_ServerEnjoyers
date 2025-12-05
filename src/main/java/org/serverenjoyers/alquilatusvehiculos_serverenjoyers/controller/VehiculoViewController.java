@@ -32,7 +32,7 @@ public class VehiculoViewController {
         try {
             vehiculoService.addVehiculo(vehiculo);
             redirectAttributes.addFlashAttribute("successMessage", "Vehículo se ha registrado correctamente");
-            return "redirect:/vehiculos";
+            return "redirect:/admin/vehiculos";
         } catch (DuplicateMatriculaException e){
             model.addAttribute("errorMessageNuevo", e.getMessage());
             model.addAttribute("vehiculos", vehiculoService.getVehiculos());
@@ -49,7 +49,7 @@ public class VehiculoViewController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "No se pudo eliminar el vehículo");
         }
-        return "redirect:/vehiculos";
+        return "redirect:/admin/vehiculos";
     }
 
     @GetMapping("/admin/vehiculos/editar/{id}")
@@ -66,7 +66,7 @@ public class VehiculoViewController {
         try {
             vehiculoService.updateVehiculo(vehiculo);
             redirectAttributes.addFlashAttribute("successMessage", "Vehículo actualizado correctamente");
-            return "redirect:/vehiculos";
+            return "redirect:/admin/vehiculos";
         } catch (DuplicateMatriculaException e){
             model.addAttribute("errorMessageEdit", e.getMessage());
             model.addAttribute("vehiculos", vehiculoService.getVehiculos());
