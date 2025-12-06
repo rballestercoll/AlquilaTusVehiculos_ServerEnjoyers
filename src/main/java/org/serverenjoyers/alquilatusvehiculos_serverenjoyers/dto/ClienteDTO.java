@@ -1,10 +1,12 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.enums.Rol;
 
-@Schema(description = "Formulario para registrar un nuevo cliente")
-public class RegisterForm {
+@Schema(description = "DTO que representa los datos de un cliente")
+public class ClienteDTO {
+
+    @Schema(description = "ID del cliente", example = "3")
+    private Long id;
 
     @Schema(description = "Nombre del cliente", example = "Juan")
     private String nombre;
@@ -18,11 +20,16 @@ public class RegisterForm {
     @Schema(description = "Teléfono de contacto", example = "666555444")
     private String telefono;
 
-    @Schema(description = "Contraseña de acceso", example = "1234")
-    private String password;
+    @Schema(description = "ID del usuario asociado", example = "7")
+    private Long usuarioId;
 
-    @Schema(description = "Rol del usuario", example = "USER")
-    private Rol rol;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -56,19 +63,11 @@ public class RegisterForm {
         this.telefono = telefono;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

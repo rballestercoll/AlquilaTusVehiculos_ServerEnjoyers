@@ -1,5 +1,6 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service;
 
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto.AlquilerDTO;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Alquiler;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Cliente;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Usuario;
@@ -101,4 +102,28 @@ public class AlquilerService {
         return alquilerRepository.findByClienteId(cliente.getId());
     }
 
+    public List<AlquilerDTO> getAlquileresFiltrados(Usuario usuario){
+        if(usuario.getRol() == Rol.ADMIN){
+            return getAlquileres()
+                    .stream()
+                    .map(this::convertToDTO)
+                    .toList();
+        } else {
+            return getAlquileres()
+                    .stream()
+                    .filter(a -> a.getCliente().getUsuario().getId().equals(usuario.getId()))
+                    .map(this::convertToDTO)
+                    .toList();
+        }
+    }
+
+    private AlquilerDTO convertToDTO(Alquiler alquiler) {
+        AlquilerDTO dto = new AlquilerDTO();
+        dto.setId(alquiler.getId());
+        dto.setFechaInicio(alquiler.getFechaInicio());
+        dto.setFechaFin(alquiler.getFechaFin());
+        dto.setClienteId(alquiler.getCliente().getId());
+        dto.setVehiculoId(alquiler.getVehiculo().getId());
+        return dto;
+    }
 }

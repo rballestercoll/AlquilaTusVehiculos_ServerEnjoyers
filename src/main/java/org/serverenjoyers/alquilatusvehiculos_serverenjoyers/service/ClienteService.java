@@ -1,5 +1,6 @@
 package org.serverenjoyers.alquilatusvehiculos_serverenjoyers.service;
 
+import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto.ClienteDTO;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.dto.RegisterForm;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.exception.DuplicateEmailException;
 import org.serverenjoyers.alquilatusvehiculos_serverenjoyers.model.Cliente;
@@ -70,5 +71,23 @@ public class ClienteService {
 
     public Optional<Cliente> getClientePorEmail(String email){
         return clienteRepository.findByEmail(email);
+    }
+
+    public List<ClienteDTO> getCustomers(){
+        return getClientes()
+                .stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
+    private ClienteDTO convertToDTO(Cliente cliente){
+        ClienteDTO dto = new ClienteDTO();
+        dto.setId(cliente.getId());
+        dto.setNombre(cliente.getNombre());
+        dto.setApellidos(cliente.getApellidos());
+        dto.setEmail(cliente.getEmail());
+        dto.setTelefono(cliente.getTelefono());
+        dto.setUsuarioId(cliente.getUsuario().getId());
+        return dto;
     }
 }
