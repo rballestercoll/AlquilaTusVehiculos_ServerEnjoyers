@@ -23,7 +23,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @Operation(summary = "Login de cliente/usuario", description = "Autentica un usuario usando email/password y devuelve un token JWT")
+    @Operation(summary = "Login de usuario (cliente/administrador)", description = "Autentica un usuario usando email/password y devuelve un token JWT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Autenticación correcta, token JWT devuelto"),
             @ApiResponse(responseCode = "401", description = "Credenciales incorrectas")
