@@ -34,10 +34,11 @@ public class SecurityConfig {
     public SecurityFilterChain apiSecurity(HttpSecurity http) throws Exception {
 
         http
-                .securityMatcher("/api/**") // Solo afecta a rutas API
+                .securityMatcher("/api/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html") // Solo afecta a rutas API
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html","/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/alquileres/**").hasAnyRole("USER", "ADMIN")
@@ -46,45 +47,44 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(jwtEntryPoint)        // 401
-                        .accessDeniedHandler(jwtDeniedHandler)          // 403
+                        .defaultAuthenticationEntryPointFor(
+                                jwtEntryPoint,
+                                request -> request.getRequestURI().startsWith("/api")
+                        )
+                        .accessDeniedHandler(jwtDeniedHandler)
                 )
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .requestCache(cache -> cache.disable());
 
         return http.build();
     }
 
-//    @Bean
-//    @Order(2)
-//    public SecurityFilterChain webSecurity(HttpSecurity http) throws Exception {
-//
-//        http
-//                .securityMatcher("/**")
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//
-//                        .requestMatchers(
-//                                "/", "/login", "/registro",
-//                                "/assets/**",
-//                                "/swagger-ui/**",
-//                                "/v3/api-docs/**",
-//                                "/swagger-ui.html"
-//                        ).permitAll()
-//
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/user/**").hasRole("USER")
-//                        .requestMatchers("/alquileres/**").hasAnyRole("USER", "ADMIN")
-//
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout.permitAll());
-//
-//        return http.build();
-//    }
+    @Bean
+    @Order(2)
+    public SecurityFilterChain webSecurity(HttpSecurity http) throws Exception {
+
+        http
+                .securityMatcher("/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+
+                        .requestMatchers(
+                                "/", "/login", "/registro", "/assets/**"
+                        ).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/alquileres/**").hasAnyRole("USER", "ADMIN")
+
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout.permitAll());
+
+        return http.build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
